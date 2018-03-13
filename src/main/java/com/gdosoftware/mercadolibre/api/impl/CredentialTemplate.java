@@ -66,9 +66,11 @@ public class CredentialTemplate extends AbstractMercadoLibreOperations implement
         con.setExpiresIn(meli.getExpiresIn()+System.currentTimeMillis());
         con.setScope(meli.getScope());
         con.setTokenType(meli.getTokenType());
-        con.setUserID(Long.parseLong(meli.getUserId()));
+        con.setUserID(meli.getUserId());
         
         return con;
     }
+    
+   
     
 }

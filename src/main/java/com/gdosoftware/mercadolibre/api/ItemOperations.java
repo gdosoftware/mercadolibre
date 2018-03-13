@@ -15,7 +15,7 @@ import com.mercadolibre.sdk.MeliException;
  */
 public interface ItemOperations {
     
-     public MLItem getMLItem (String itemId) throws MeliException;
-     public MLItems getMLItems() throws MeliException;
+     public MLItem getItem (String itemId) throws MeliException;
+     public MLItems getItems() throws MeliException;
     
 }

@@ -12,7 +12,7 @@ import com.gdosoftware.mercadolibre.api.MercadoLibre;
  * @author Daniel Gago
  */
 public interface ConnectionRepository {
-   public MercadoLibre getApi(Long userId);
-   public Connection getConnection(Long userId);
+   public MercadoLibre getApi(String userId);
+   public Connection getConnection(String userId);
    public void saveConnection(Connection conecction);
 }

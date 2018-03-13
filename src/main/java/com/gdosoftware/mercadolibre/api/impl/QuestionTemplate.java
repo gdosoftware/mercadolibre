@@ -8,6 +8,7 @@ package com.gdosoftware.mercadolibre.api.impl;
 import com.mercadolibre.sdk.Meli;
 import com.mercadolibre.sdk.MeliException;
 import com.gdosoftware.mercadolibre.api.QuestionOperations;
+import com.gdosoftware.mercadolibre.domain.MLQuestion;
 import com.gdosoftware.mercadolibre.domain.MLQuestionResponse;
 import com.gdosoftware.mercadolibre.domain.MLQuestions;
 
@@ -58,6 +59,11 @@ public class QuestionTemplate extends AbstractMercadoLibreOperations implements 
     public void postQuestions(String itemId, String question) throws MeliException {
         
         postForObject("/questions/"+itemId, createParams(), "{\"item_id\":"+itemId+",\"text\":\""+question+"\"}");
+    }
+
+    @Override
+    public MLQuestion getQuestion(Long questionId) throws MeliException {
+        return getForObject("/questions/"+questionId, MLQuestion.class, createParamsWithToken());
     }
 
     

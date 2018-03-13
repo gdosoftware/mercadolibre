@@ -23,12 +23,12 @@ public class ItemTemplate extends AbstractMercadoLibreOperations implements Item
     }
 
     @Override
-    public MLItem getMLItem(String itemId) throws MeliException {
+    public MLItem getItem(String itemId) throws MeliException {
         return getForObject("/items/"+itemId, MLItem.class);
     }
 
     @Override
-    public MLItems getMLItems() throws MeliException {
+    public MLItems getItems() throws MeliException {
          return getForObject("/users/"+meli.getUserId()+"/items/search", MLItems.class, createParamsWithToken().add("status", "active"));
         
     }

@@ -25,6 +25,10 @@ public class MercadoLibreTemplate extends Meli implements MercadoLibre{
     public MercadoLibreTemplate(Long clientId, String clientSecret) {
         super(clientId, clientSecret);
     }
+    
+    public MercadoLibreTemplate(String userId, String accesToken, String refreahToken){
+        super(userId, accesToken, refreahToken);
+    }
 
     @Override
     public UserOperations getUserOperations() {

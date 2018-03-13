@@ -20,17 +20,16 @@ import org.springframework.core.env.Environment;
 public abstract class MercadoLibreConfigurer {
     
     
-    public abstract Long getClientId();
-    public abstract String getClientSecret();
+    public abstract Long getClientId(Environment env);
+    public abstract String getClientSecret(Environment env);
     public abstract ConnectionRepository getConnectionRepository();
-    public abstract String getCallbackUrl();
+    public abstract String getCallbackUrl(Environment env);
     public abstract String getSuccessPage();
-    public abstract String getFailurePage();
     
     @Bean
     @Scope(value="session", proxyMode=ScopedProxyMode.INTERFACES)
     public MercadoLibre populateApi(Environment env){
-        return new MercadoLibreTemplate(getClientId(),getClientSecret());
+        return new MercadoLibreTemplate(getClientId(env),getClientSecret(env));
     }
     
     @Bean
@@ -39,8 +38,8 @@ public abstract class MercadoLibreConfigurer {
     }
     
     @Bean(name = "callbackUrl")
-    public String populateCallbackUrl(){
-        return getCallbackUrl();
+    public String populateCallbackUrl(Environment env){
+        return getCallbackUrl(env);
     }
     
     @Bean(name = "successPage")
@@ -48,8 +47,5 @@ public abstract class MercadoLibreConfigurer {
         return getSuccessPage();
     }
     
-    @Bean(name = "failurePage")
-    public String populateFailurePage(){
-        return getFailurePage();
-    }
+   
 }

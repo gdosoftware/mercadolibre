@@ -10,21 +10,23 @@ package com.gdosoftware.mercadolibre.connect;
  * @author Daniel Gago
  */
 public class Connection {
-    
-    private Long userID;
+        
+    private String userID;
     private String accessToken;
     private String refreshToken;
     private Long expiresIn;
     private String tokenType;
     private String scope;
 
-    public Long getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(Long userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
+
+   
 
     public String getAccessToken() {
         return accessToken;
