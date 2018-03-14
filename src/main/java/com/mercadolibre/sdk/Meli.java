@@ -20,6 +20,13 @@ import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import com.ning.http.client.FluentStringsMap;
 import com.ning.http.client.Response;
+/**
+ * 
+ * @author Daniel Gago
+ * cambios desde version original
+ * cambio userId de String a Long
+ * agrego constructor   public Meli(Long userId, String accessToken, String refreshToken, Long expiresIn){
+ */
 
 public class Meli {
     
@@ -27,9 +34,7 @@ public class Meli {
  
 	/**
 	 *	Availables auth sites. One user - application can only operate in one site
-	 *cambios desde version original
-         * 
-         * agrego constructor  public Meli(String userId, String accessToken, String refreshToken)
+	 
 	 */
 
 	public static enum AuthUrls {
@@ -67,7 +72,7 @@ public class Meli {
         /** news **/
         private Long   expiresIn;
         private String scope;
-        private String userId;
+        private Long userId; //change from String to Long
         private String tokenType;
 
     
@@ -95,11 +100,12 @@ public class Meli {
                 this.clientSecret = clientSecret;
                 this.refreshToken = refreshToken;
         }
-        
-        public Meli(String userId, String accessToken, String refreshToken){
+        //custom constructor
+        public Meli(Long userId, String accessToken, String refreshToken, Long expiresIn){
             this.userId = userId;
             this.accessToken = accessToken;
             this.refreshToken = refreshToken;
+            this.expiresIn = expiresIn;
         }
 
         public String getAccessToken() {
@@ -118,7 +124,7 @@ public class Meli {
             return this.scope;
         }
 
-        public String getUserId() {
+        public Long getUserId() {
             return this.userId;
         }
 
@@ -276,7 +282,7 @@ public class Meli {
 
                             JsonElement jsonElementUserID = object.get("user_id");
                             this.userId = jsonElementUserID != null ? object.get(
-                                            "user_id").getAsString(): null;
+                                            "user_id").getAsLong(): null;
 
                             JsonElement jsonElementToken = object.get("token_type");
                             this.tokenType = jsonElementToken != null ? object.get(

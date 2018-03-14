@@ -24,7 +24,7 @@ public class QuestionTemplate extends AbstractMercadoLibreOperations implements 
     
     @Override
     public MLQuestions getQuestionsBySeller(Status status) throws MeliException{
-        return getForObject("/questions/search", MLQuestions.class, createParamsWithToken().add("seller_id", meli.getUserId())
+        return getForObject("/questions/search", MLQuestions.class, createParamsWithToken().add("seller_id", meli.getUserId().toString())
                                                                                            .add("status",status.name()));
        
     }
@@ -56,7 +56,7 @@ public class QuestionTemplate extends AbstractMercadoLibreOperations implements 
     }
 
     @Override
-    public void postQuestions(String itemId, String question) throws MeliException {
+    public void postQuestion(String itemId, String question) throws MeliException {
         
         postForObject("/questions/"+itemId, createParams(), "{\"item_id\":"+itemId+",\"text\":\""+question+"\"}");
     }

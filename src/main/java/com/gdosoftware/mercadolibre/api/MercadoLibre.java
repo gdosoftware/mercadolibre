@@ -16,6 +16,6 @@ public interface MercadoLibre {
     public ItemOperations getItemOperations();
     public ShippingOperations getShippingOperations();
     public QuestionOperations getQuestionOperations();
-    public CategoryOperations getCategoryOperations();
+    public SiteOperations getSiteOperations();
     
 }

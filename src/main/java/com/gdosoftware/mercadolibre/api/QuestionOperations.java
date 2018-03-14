@@ -24,5 +24,5 @@ public interface QuestionOperations {
     public MLQuestion getQuestion(Long questionId) throws MeliException;
     public void deleteQuestion(Long questionId) throws MeliException;
     public MLQuestionResponse answer (Long questionId, String answer) throws MeliException;
-    public void postQuestions(String itemId, String question) throws MeliException;
+    public void postQuestion(String itemId, String question) throws MeliException;
 }

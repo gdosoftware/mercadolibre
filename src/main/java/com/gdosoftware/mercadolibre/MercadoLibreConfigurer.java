@@ -7,11 +7,14 @@ package com.gdosoftware.mercadolibre;
 
 import com.gdosoftware.mercadolibre.api.MercadoLibre;
 import com.gdosoftware.mercadolibre.api.impl.MercadoLibreTemplate;
-import com.gdosoftware.mercadolibre.connect.ConnectionRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
+import com.gdosoftware.mercadolibre.connect.ConnectionPoolRepository;
+import org.springframework.context.event.ApplicationEventMulticaster;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 /**
  *
@@ -20,21 +23,21 @@ import org.springframework.core.env.Environment;
 public abstract class MercadoLibreConfigurer {
     
     
-    public abstract Long getClientId(Environment env);
-    public abstract String getClientSecret(Environment env);
-    public abstract ConnectionRepository getConnectionRepository();
+    public abstract Long getApplicationId(Environment env);
+    public abstract String getApplicationSecret(Environment env);
+    public abstract ConnectionPoolRepository getConnectionPoolRepository();
     public abstract String getCallbackUrl(Environment env);
-    public abstract String getSuccessPage();
+    public abstract String getSuccessUrl();
     
     @Bean
     @Scope(value="session", proxyMode=ScopedProxyMode.INTERFACES)
     public MercadoLibre populateApi(Environment env){
-        return new MercadoLibreTemplate(getClientId(env),getClientSecret(env));
+        return new MercadoLibreTemplate(getApplicationId(env),getApplicationSecret(env));
     }
     
     @Bean
-    public ConnectionRepository populateConnectionRepository(){
-        return getConnectionRepository();
+    public ConnectionPoolRepository populateConnectionRepository(){
+        return getConnectionPoolRepository();
     }
     
     @Bean(name = "callbackUrl")
@@ -42,9 +45,18 @@ public abstract class MercadoLibreConfigurer {
         return getCallbackUrl(env);
     }
     
-    @Bean(name = "successPage")
+    @Bean(name = "successUrl")
     public String populateSuccessPage(){
-        return getSuccessPage();
+        return getSuccessUrl();
+    }
+    
+    @Bean(name = "applicationEventMulticaster")
+    public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
+        SimpleApplicationEventMulticaster eventMulticaster 
+          = new SimpleApplicationEventMulticaster();
+         
+        eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+        return eventMulticaster;
     }
     
    

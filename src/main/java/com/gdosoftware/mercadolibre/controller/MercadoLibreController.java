@@ -5,19 +5,36 @@
  */
 package com.gdosoftware.mercadolibre.controller;
 
+import com.gdosoftware.mercadolibre.api.CredentialOperations;
 import com.mercadolibre.sdk.AuthorizationFailure;
 import com.mercadolibre.sdk.Meli;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.gdosoftware.mercadolibre.api.MercadoLibre;
-import com.gdosoftware.mercadolibre.connect.ConnectionRepository;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.gdosoftware.mercadolibre.connect.ConnectionPoolRepository;
+import com.gdosoftware.mercadolibre.domain.MLNotify;
+import com.gdosoftware.mercadolibre.events.CreatedOrdersEvent;
+import com.gdosoftware.mercadolibre.events.ItemsEvent;
+import com.gdosoftware.mercadolibre.events.MessagesEvent;
+import com.gdosoftware.mercadolibre.events.OrdersEvent;
+import com.gdosoftware.mercadolibre.events.PaymentsEvent;
+import com.gdosoftware.mercadolibre.events.PicturesEvent;
+import com.gdosoftware.mercadolibre.events.QuestionsEvent;
+import java.util.Optional;
+import javax.annotation.PostConstruct;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -33,11 +50,15 @@ public class MercadoLibreController {
     private String callbackUrl;
     
     @Autowired
-    private String successPage;
-    
-       
+    private String successUrl;
+        
     @Autowired
-    private ConnectionRepository conRepo;
+    private ApplicationEventPublisher appEventPublisher;
+    
+    @Autowired
+    private ApplicationContext appContext;
+    
+    private ConnectionPoolRepository connRepo;
 
     
     @RequestMapping(value ="/signin" ,method = RequestMethod.GET)
@@ -49,19 +70,56 @@ public class MercadoLibreController {
     
     @RequestMapping(value ="/authcallback" ,method = RequestMethod.GET)
     public String authorizedCallback(@RequestParam(value = "code", required = false) String code,
-                                     HttpServletRequest request) throws AuthorizationFailure{
+                                     HttpServletRequest request) throws AuthorizationFailure, ServletException{
        
-            meli.getConnectionOperations().authorize(code, callbackUrl);
-            conRepo.saveConnection(meli.getCredentialOperations().getConnectionData());
-            try {
-                request.login(meli.getCredentialOperations().getUserId().toString(), null);
-            } catch (ServletException ex) {
-                Logger.getLogger(MercadoLibreController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return "redirect:"+successPage;
+        meli.getConnectionOperations().authorize(code, callbackUrl);
+        CredentialOperations co = meli.getCredentialOperations();
+
+        if(connRepo != null)
+            connRepo.save(co.getUserId(), co.getAccessToken(), co.getRefreshToken(), co.getExpiresIn());
+
+        //request.login(co.getUserId().toString(), null);
+        SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken(null, co.getUserId(), null));
+
+        return "redirect:"+successUrl;
        
     }
     
-   
+     @RequestMapping(value="/notifications", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity  mlNotify(@RequestBody MLNotify notify){
+       
+        switch(notify.getTopic()){//estos eventos son asincronicos
+            case "orders":
+                appEventPublisher.publishEvent(new OrdersEvent(notify,connRepo));
+                break;
+            case "items":
+                appEventPublisher.publishEvent(new ItemsEvent(notify,connRepo));
+                break;
+            case "created_orders":
+                appEventPublisher.publishEvent(new CreatedOrdersEvent(notify,connRepo));
+                break;
+            case "questions":
+                appEventPublisher.publishEvent(new QuestionsEvent(notify,connRepo));
+                break;
+            case "pictures":
+                appEventPublisher.publishEvent(new PicturesEvent(notify,connRepo));
+                break;
+            case "payments":
+                appEventPublisher.publishEvent(new PaymentsEvent(notify,connRepo));
+                break;
+            case "messages":
+                appEventPublisher.publishEvent(new MessagesEvent(notify,connRepo));
+                break;
+        }
+         System.out.println("Estoy por devolver el status 200 de notificaciones");
+         return new ResponseEntity<>(HttpStatus.OK);   
+    }
+    
+   @PostConstruct
+   public void populateConnectionPoolRepository(){//no se inyecat el ConnectionPoolRepository x q puede ser nulo
+        Optional.ofNullable(appContext.getBean(ConnectionPoolRepository.class)).ifPresent((cpr) -> {
+                this.connRepo = cpr;
+        });
+   }
     
 }

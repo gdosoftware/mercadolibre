@@ -10,6 +10,8 @@ import com.gdosoftware.mercadolibre.domain.MLItem;
 import com.gdosoftware.mercadolibre.domain.MLItems;
 import com.mercadolibre.sdk.Meli;
 import com.mercadolibre.sdk.MeliException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -28,9 +30,13 @@ public class ItemTemplate extends AbstractMercadoLibreOperations implements Item
     }
 
     @Override
-    public MLItems getItems() throws MeliException {
-         return getForObject("/users/"+meli.getUserId()+"/items/search", MLItems.class, createParamsWithToken().add("status", "active"));
-        
+    public List<MLItem> getItems() throws MeliException {
+        List<MLItem> items = new ArrayList<>();
+        MLItems list = getForObject("/users/"+meli.getUserId()+"/items/search", MLItems.class, createParamsWithToken().add("status", "active"));
+        for(String it : list.getResults()){
+            items.add(getItem(it));
+        }
+        return items;
     }
     
 }

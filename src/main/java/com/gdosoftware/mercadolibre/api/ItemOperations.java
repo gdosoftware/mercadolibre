@@ -8,6 +8,7 @@ package com.gdosoftware.mercadolibre.api;
 import com.gdosoftware.mercadolibre.domain.MLItem;
 import com.gdosoftware.mercadolibre.domain.MLItems;
 import com.mercadolibre.sdk.MeliException;
+import java.util.List;
 
 /**
  *
@@ -16,6 +17,6 @@ import com.mercadolibre.sdk.MeliException;
 public interface ItemOperations {
     
      public MLItem getItem (String itemId) throws MeliException;
-     public MLItems getItems() throws MeliException;
+     public List<MLItem> getItems() throws MeliException;
     
 }

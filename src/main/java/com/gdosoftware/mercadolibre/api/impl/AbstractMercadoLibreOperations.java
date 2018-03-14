@@ -5,6 +5,7 @@
  */
 package com.gdosoftware.mercadolibre.api.impl;
 
+import com.gdosoftware.mercadolibre.events.InvalidTokenEvent;
 import com.google.gson.Gson;
 import com.mercadolibre.sdk.Meli;
 import com.mercadolibre.sdk.MeliException;
@@ -13,12 +14,17 @@ import com.ning.http.client.Response;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 
 /**
  *
  * @author Daniel Gago
  */
 public abstract class AbstractMercadoLibreOperations {
+    
+    @Autowired
+    private ApplicationEventPublisher appEventPublisher;
     
     protected Meli meli;
 
@@ -27,6 +33,9 @@ public abstract class AbstractMercadoLibreOperations {
     }
 
     protected FluentStringsMap createParamsWithToken(){
+        if(meli.getExpiresIn() < System.currentTimeMillis())
+            appEventPublisher.publishEvent(new InvalidTokenEvent(this.meli));
+        System.out.println("paso el evento");
         FluentStringsMap params = new FluentStringsMap();
         return params.add("access_token", meli.getAccessToken());
     }
@@ -34,6 +43,17 @@ public abstract class AbstractMercadoLibreOperations {
     protected FluentStringsMap createParams(){
         return new FluentStringsMap();
     }
+    
+    protected <T> T getForObject(String path, Class<T> clazz) throws MeliException{
+        Gson gson = new Gson();
+        Response response = meli.get(path);
+        try {
+            return gson.fromJson(response.getResponseBody(), clazz);
+        } catch (IOException ex) {
+            Logger.getLogger(AbstractMercadoLibreOperations.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+   }
     
    protected <T> T getForObject(String path, Class<T> clazz, FluentStringsMap params) throws MeliException{
         Gson gson = new Gson();
@@ -46,16 +66,7 @@ public abstract class AbstractMercadoLibreOperations {
         return null;
    }
    
-   protected <T> T getForObject(String path, Class<T> clazz) throws MeliException{
-        Gson gson = new Gson();
-        Response response = meli.get(path);
-        try {
-            return gson.fromJson(response.getResponseBody(), clazz);
-        } catch (IOException ex) {
-            Logger.getLogger(AbstractMercadoLibreOperations.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-   }
+  
    
    protected <T> T postForObject(String path, Class<T> clazz, FluentStringsMap params, String body) throws MeliException{
         Gson gson = new Gson();

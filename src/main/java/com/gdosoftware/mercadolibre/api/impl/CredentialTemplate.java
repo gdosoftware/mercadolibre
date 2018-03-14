@@ -6,7 +6,6 @@
 package com.gdosoftware.mercadolibre.api.impl;
 
 import com.gdosoftware.mercadolibre.api.CredentialOperations;
-import com.gdosoftware.mercadolibre.connect.Connection;
 import com.mercadolibre.sdk.AuthorizationFailure;
 import com.mercadolibre.sdk.Meli;
 
@@ -23,7 +22,7 @@ public class CredentialTemplate extends AbstractMercadoLibreOperations implement
 
     @Override
     public Long getUserId() {
-        return Long.parseLong(meli.getUserId());
+        return meli.getUserId();
     }
 
     @Override
@@ -51,26 +50,7 @@ public class CredentialTemplate extends AbstractMercadoLibreOperations implement
         return meli.getScope();
     }
 
-    @Override
-    public void refreshToken() throws AuthorizationFailure{
-            meli.refreshAccessToken();
-       
-    }
-
-    @Override
-    public Connection getConnectionData() {
-        Connection con = new Connection();
-        
-        con.setAccessToken(meli.getAccessToken());
-        con.setRefreshToken(meli.getRefreshToken());
-        con.setExpiresIn(meli.getExpiresIn()+System.currentTimeMillis());
-        con.setScope(meli.getScope());
-        con.setTokenType(meli.getTokenType());
-        con.setUserID(meli.getUserId());
-        
-        return con;
-    }
-    
+  
    
     
 }

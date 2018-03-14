@@ -66,8 +66,8 @@ public class MLNotify {
         this.attempts = attempts;
     }
     
-    public Long getResourceId(){
-        return Long.parseLong(resource.split("/")[2]);
+    public String getResourceId(){
+        return resource.split("/")[2];
     }           
     
     public String getUid(){

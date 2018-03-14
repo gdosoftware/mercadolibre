@@ -5,7 +5,6 @@
  */
 package com.gdosoftware.mercadolibre.api;
 
-import com.gdosoftware.mercadolibre.connect.Connection;
 import com.mercadolibre.sdk.AuthorizationFailure;
 
 /**
@@ -19,6 +18,4 @@ public interface CredentialOperations {
     public String getTokenType();
     public Long getExpiresIn();
     public String getScope();
-    public void refreshToken() throws AuthorizationFailure;
-    public Connection getConnectionData();
 }

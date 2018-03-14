@@ -6,13 +6,13 @@
 package com.gdosoftware.mercadolibre.api.impl;
 
 import com.mercadolibre.sdk.Meli;
-import com.gdosoftware.mercadolibre.api.CategoryOperations;
 import com.gdosoftware.mercadolibre.api.ConnectionOperations;
 import com.gdosoftware.mercadolibre.api.CredentialOperations;
 import com.gdosoftware.mercadolibre.api.ItemOperations;
 import com.gdosoftware.mercadolibre.api.MercadoLibre;
 import com.gdosoftware.mercadolibre.api.QuestionOperations;
 import com.gdosoftware.mercadolibre.api.ShippingOperations;
+import com.gdosoftware.mercadolibre.api.SiteOperations;
 import com.gdosoftware.mercadolibre.api.UserOperations;
 
 /**
@@ -26,8 +26,8 @@ public class MercadoLibreTemplate extends Meli implements MercadoLibre{
         super(clientId, clientSecret);
     }
     
-    public MercadoLibreTemplate(String userId, String accesToken, String refreahToken){
-        super(userId, accesToken, refreahToken);
+    public MercadoLibreTemplate(Long userId, String accesToken, String refreahToken, Long expiresIn){
+        super(userId, accesToken, refreahToken, expiresIn);
     }
 
     @Override
@@ -49,11 +49,7 @@ public class MercadoLibreTemplate extends Meli implements MercadoLibre{
     public QuestionOperations getQuestionOperations() {
         return new QuestionTemplate(this);
     }
-
-    @Override
-    public CategoryOperations getCategoryOperations() {
-       return new CategoryTemplate(this);
-    }
+ 
 
     @Override
     public ConnectionOperations getConnectionOperations() {
@@ -63,6 +59,11 @@ public class MercadoLibreTemplate extends Meli implements MercadoLibre{
     @Override
     public CredentialOperations getCredentialOperations() {
         return new CredentialTemplate(this);
+    }
+
+    @Override
+    public SiteOperations getSiteOperations() {
+        return new SiteTemplate(this);
     }
 
     
