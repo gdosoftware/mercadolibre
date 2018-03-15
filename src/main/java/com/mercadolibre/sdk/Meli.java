@@ -25,7 +25,12 @@ import com.ning.http.client.Response;
  * @author Daniel Gago
  * cambios desde version original
  * cambio userId de String a Long
- * agrego constructor   public Meli(Long userId, String accessToken, String refreshToken, Long expiresIn){
+ * agrego constructor  
+ * public Meli(Long userId, String accessToken, String refreshToken, Long expiresIn)
+ * 
+ * agrego system.currentMillis 
+ * this.expiresIn = jsonElementExpires != null ? Long.parseLong(object.get(
+                                            "expires_in").getAsString())*1000+ System.currentTimeMillis(): null;
  */
 
 public class Meli {
@@ -274,7 +279,7 @@ public class Meli {
                             /** News **/
                             JsonElement jsonElementExpires = object.get("expires_in");
                             this.expiresIn = jsonElementExpires != null ? Long.parseLong(object.get(
-                                            "expires_in").getAsString()): null;
+                                            "expires_in").getAsString())*1000+ System.currentTimeMillis(): null;
 
                             JsonElement jsonElementScope = object.get("scope");
                             this.scope = jsonElementScope != null ? object.get(

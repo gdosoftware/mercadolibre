@@ -27,6 +27,7 @@ public abstract class AbstractMercadoLibreOperations {
     private ApplicationEventPublisher appEventPublisher;
     
     protected Meli meli;
+    protected Long expiresIn;
 
     public AbstractMercadoLibreOperations(Meli meli) {
         this.meli = meli;

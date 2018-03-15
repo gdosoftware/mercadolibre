@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.gdosoftware.mercadolibre.connect.ConnectionPoolRepository;
 import com.gdosoftware.mercadolibre.domain.MLNotify;
+import com.gdosoftware.mercadolibre.domain.MLUser;
 import com.gdosoftware.mercadolibre.events.CreatedOrdersEvent;
 import com.gdosoftware.mercadolibre.events.ItemsEvent;
 import com.gdosoftware.mercadolibre.events.MessagesEvent;
@@ -25,14 +26,16 @@ import com.gdosoftware.mercadolibre.events.OrdersEvent;
 import com.gdosoftware.mercadolibre.events.PaymentsEvent;
 import com.gdosoftware.mercadolibre.events.PicturesEvent;
 import com.gdosoftware.mercadolibre.events.QuestionsEvent;
+import com.mercadolibre.sdk.MeliException;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -47,7 +50,7 @@ public class MercadoLibreController {
     private MercadoLibre meli;
    
     @Autowired
-    private String callbackUrl;
+    private String rootUrl;
     
     @Autowired
     private String successUrl;
@@ -64,22 +67,25 @@ public class MercadoLibreController {
     @RequestMapping(value ="/signin" ,method = RequestMethod.GET)
     public String signin(@RequestParam(value = "site") Meli.AuthUrls site){
 
-        String authorizeUrl = meli.getConnectionOperations().getAuthUrl(callbackUrl, site);
+        String authorizeUrl = meli.getConnectionOperations().getAuthUrl(rootUrl+"/authcallback", site);
         return "redirect:"+authorizeUrl;
     }
     
     @RequestMapping(value ="/authcallback" ,method = RequestMethod.GET)
     public String authorizedCallback(@RequestParam(value = "code", required = false) String code,
-                                     HttpServletRequest request) throws AuthorizationFailure, ServletException{
+                                     HttpServletRequest request) throws AuthorizationFailure, ServletException, MeliException{
        
-        meli.getConnectionOperations().authorize(code, callbackUrl);
+        meli.getConnectionOperations().authorize(code, rootUrl+"/authcallback");
         CredentialOperations co = meli.getCredentialOperations();
 
         if(connRepo != null)
-            connRepo.save(co.getUserId(), co.getAccessToken(), co.getRefreshToken(), co.getExpiresIn());
+            connRepo.save(co.getUserId(), co.getAccessToken(), co.getRefreshToken(), co.getExpiresIn()+System.currentTimeMillis());
 
-        //request.login(co.getUserId().toString(), null);
-        SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken(null, co.getUserId(), null));
+ //       request.login(co.getUserId().toString(), null);
+        MLUser user = meli.getUserOperations().getUserMe();
+        Authentication auth = new PreAuthenticatedAuthenticationToken(user,null);
+        auth.setAuthenticated(false);
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
         return "redirect:"+successUrl;
        

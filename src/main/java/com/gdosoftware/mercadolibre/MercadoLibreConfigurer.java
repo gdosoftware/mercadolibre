@@ -26,7 +26,7 @@ public abstract class MercadoLibreConfigurer {
     public abstract Long getApplicationId(Environment env);
     public abstract String getApplicationSecret(Environment env);
     public abstract ConnectionPoolRepository getConnectionPoolRepository();
-    public abstract String getCallbackUrl(Environment env);
+    public abstract String getRootUrl(Environment env);
     public abstract String getSuccessUrl();
     
     @Bean
@@ -40,9 +40,9 @@ public abstract class MercadoLibreConfigurer {
         return getConnectionPoolRepository();
     }
     
-    @Bean(name = "callbackUrl")
+    @Bean(name = "rootUrl")
     public String populateCallbackUrl(Environment env){
-        return getCallbackUrl(env);
+        return getRootUrl(env);
     }
     
     @Bean(name = "successUrl")
