@@ -82,8 +82,8 @@ public class MercadoLibreController {
             connRepo.save(co.getUserId(), co.getAccessToken(), co.getRefreshToken(), co.getExpiresIn()+System.currentTimeMillis());
 
  //       request.login(co.getUserId().toString(), null);
-        MLUser user = meli.getUserOperations().getUserMe();
-        Authentication auth = new PreAuthenticatedAuthenticationToken(user,null);
+       // MLUser user = meli.getUserOperations().getUserMe();
+        Authentication auth = new PreAuthenticatedAuthenticationToken(co.getUserId(),null);
         auth.setAuthenticated(false);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
