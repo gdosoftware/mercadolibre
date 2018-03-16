@@ -79,7 +79,7 @@ public class MercadoLibreController {
         CredentialOperations co = meli.getCredentialOperations();
 
         if(connRepo != null)
-            connRepo.save(co.getUserId(), co.getAccessToken(), co.getRefreshToken(), co.getExpiresIn()+System.currentTimeMillis());
+            connRepo.save(co.getUserId(), co.getAccessToken(), co.getRefreshToken(), co.getExpiresIn());
 
  //       request.login(co.getUserId().toString(), null);
        // MLUser user = meli.getUserOperations().getUserMe();

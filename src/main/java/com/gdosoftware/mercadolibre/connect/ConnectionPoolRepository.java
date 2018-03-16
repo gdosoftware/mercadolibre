@@ -17,6 +17,7 @@ public interface ConnectionPoolRepository {
    public String getRefreshToken(Long userId);
    public Long getExpiresIn(Long userId);
    public void save(Long userId, String accessToken, String refreshToken, Long expiresIn);
+   public void delete(Long userId);
    public default MercadoLibre getApi(Long userId){
        return new MercadoLibreTemplate(userId, getAccessToken(userId), getRefreshToken(userId), getExpiresIn(userId));
    }
