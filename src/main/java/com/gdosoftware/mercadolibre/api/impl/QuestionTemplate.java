@@ -11,6 +11,10 @@ import com.gdosoftware.mercadolibre.api.QuestionOperations;
 import com.gdosoftware.mercadolibre.domain.MLQuestion;
 import com.gdosoftware.mercadolibre.domain.MLQuestionResponse;
 import com.gdosoftware.mercadolibre.domain.MLQuestions;
+import com.ning.http.client.FluentStringsMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -23,25 +27,67 @@ public class QuestionTemplate extends AbstractMercadoLibreOperations implements 
     }
     
     @Override
-    public MLQuestions getQuestionsBySeller(Status status) throws MeliException{
-        return getForObject("/questions/search", MLQuestions.class, createParamsWithToken().add("seller_id", meli.getUserId().toString())
-                                                                                           .add("status",status.name()));
+    public List<MLQuestion> getQuestionsBySeller(Status status) throws MeliException{
+        List<MLQuestion> questions = new ArrayList<>();
+        int offset = 0;
+        int total = Integer.MAX_VALUE;
+        
+        while (total > offset ){
+            FluentStringsMap params = createParamsWithToken().add("seller_id", meli.getUserId().toString())
+                                                             .add("status",status.name())
+                                                             .add("limit",String.valueOf(LIMIT))
+                                                             .add("offset",String.valueOf(offset));
+            MLQuestions mlquestions = getForObject("/questions/search", MLQuestions.class, params);
+            questions.addAll(Arrays.asList(mlquestions.getQuestions()));
+            total = mlquestions.getTotal();
+            offset += 50;
+        }
+        
+        return questions;
        
     }
     
      @Override
-    public MLQuestions getQuestionsByItemAndBuyer(String itemId, Long buyerId, Status status) throws MeliException {
-     
-        return getForObject("/questions/search",MLQuestions.class, createParamsWithToken().add("item", itemId)
-                                                                                          .add("status",status.name())  
-                                                                                          .add("from",buyerId.toString()));
+    public List<MLQuestion> getQuestionsByItemAndBuyer(String itemId, Long buyerId, Status status) throws MeliException {
+        List<MLQuestion> questions = new ArrayList<>();
+        int offset = 0;
+        int total = Integer.MAX_VALUE;
+        
+        while (total > offset ){
+            FluentStringsMap params = createParamsWithToken().add("item", itemId)
+                                                             .add("status",status.name())  
+                                                             .add("from",buyerId.toString())
+                                                             .add("limit",String.valueOf(LIMIT))
+                                                             .add("offset",String.valueOf(offset));
+            MLQuestions mlquestions = getForObject("/questions/search", MLQuestions.class, params);
+            questions.addAll(Arrays.asList(mlquestions.getQuestions()));
+            total = mlquestions.getTotal();
+            offset += 50;
+        }
+        
+        return questions;
+        
     }
 
     @Override
-    public MLQuestions getQuestionsByItem(String itemId, Status status) throws MeliException {
-              
-        return getForObject("/questions/search", MLQuestions.class, createParamsWithToken().add("item", itemId)
-                                                                                           .add("status",status.name()));
+    public  List<MLQuestion> getQuestionsByItem(String itemId, Status status) throws MeliException {
+        
+        List<MLQuestion> questions = new ArrayList<>();
+        int offset = 0;
+        int total = Integer.MAX_VALUE;
+        
+        while (total > offset ){
+            FluentStringsMap params = createParamsWithToken().add("item", itemId)
+                                                             .add("status",status.name())  
+                                                             .add("limit",String.valueOf(LIMIT))
+                                                             .add("offset",String.valueOf(offset));
+            MLQuestions mlquestions = getForObject("/questions/search", MLQuestions.class, params);
+            questions.addAll(Arrays.asList(mlquestions.getQuestions()));
+            total = mlquestions.getTotal();
+            offset += 50;
+        }
+        
+        return questions;
     }
 
     @Override

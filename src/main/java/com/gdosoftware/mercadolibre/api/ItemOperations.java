@@ -17,6 +17,8 @@ import java.util.List;
 public interface ItemOperations {
     
      public MLItem getItem (String itemId) throws MeliException;
+     public MLItem getItem(String itemId, String attirbutes) throws MeliException ;
      public List<MLItem> getItems() throws MeliException;
+     public List<MLItem> getItems(String attributes) throws MeliException;
     
 }

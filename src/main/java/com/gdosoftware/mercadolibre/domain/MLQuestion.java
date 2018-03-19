@@ -26,7 +26,7 @@ public class MLQuestion {
     private Boolean hold;
     private Boolean deleted_from_listing;
     private MLAnswer answer;
-    private MLUser from;
+    private MLFrom from;
     //custom
     private String suggested;
     
@@ -111,48 +111,50 @@ public class MLQuestion {
         this.suggested = suggested;
     }
 
-    
-
-    public MLUser getFrom() {
+    public MLFrom getFrom() {
         return from;
     }
 
-    public void setFrom(MLUser from) {
+    public void setFrom(MLFrom from) {
         this.from = from;
     }
 
-    public String elpasedTime() {
-        String result="";
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-            Date ini = sdf.parse(date_created);
-            Date today = new Date();
-            Long diff = today.getTime() - ini.getTime();
-            int days = (int) (diff / 86400000) ;
-            int hours = (int) (diff / 3600000);
-            int minutes = (int) (diff / 60000 );
-            if( days == 1) 
-                   result = "Hace 1 dia";
-            else
-                if( days > 1)
-                    result = "Hace "+days+" dias";
-                else
-                    if(hours == 1)
-                        result = "Hace 1 Hora";
-                    else
-                        if (hours > 1)
-                           result = "Hace "+hours+" Horas";
-                         else
-                            if(minutes == 1)
-                                result = "Hace 1 Minuto";
-                            else
-                                result = "Hace "+minutes+" Minutos";
-            
-        } catch (ParseException ex) {
-            Logger.getLogger(MLQuestion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return result;
-    }
+    
+
+   
+//
+//    public String elpasedTime() {
+//        String result="";
+//        try {
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+//            Date ini = sdf.parse(date_created);
+//            Date today = new Date();
+//            Long diff = today.getTime() - ini.getTime();
+//            int days = (int) (diff / 86400000) ;
+//            int hours = (int) (diff / 3600000);
+//            int minutes = (int) (diff / 60000 );
+//            if( days == 1) 
+//                   result = "Hace 1 dia";
+//            else
+//                if( days > 1)
+//                    result = "Hace "+days+" dias";
+//                else
+//                    if(hours == 1)
+//                        result = "Hace 1 Hora";
+//                    else
+//                        if (hours > 1)
+//                           result = "Hace "+hours+" Horas";
+//                         else
+//                            if(minutes == 1)
+//                                result = "Hace 1 Minuto";
+//                            else
+//                                result = "Hace "+minutes+" Minutos";
+//            
+//        } catch (ParseException ex) {
+//            Logger.getLogger(MLQuestion.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return result;
+//    }
     
 
 }

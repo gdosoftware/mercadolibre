@@ -10,8 +10,18 @@ package com.gdosoftware.mercadolibre.domain;
  * @author Daniel Gago
  */
 public class MLItems {
-    public String[] results;
+    
+    private MLPaging paging;
+    private  String[] results;
 
+    public MLPaging getPaging() {
+        return paging;
+    }
+
+    public void setPaging(MLPaging paging) {
+        this.paging = paging;
+    }
+   
     public String[] getResults() {
         return results;
     }
