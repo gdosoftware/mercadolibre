@@ -9,6 +9,7 @@ import com.gdosoftware.mercadolibre.api.SiteOperations;
 import com.gdosoftware.mercadolibre.domain.MLCategory;
 import com.gdosoftware.mercadolibre.domain.MLCountry;
 import com.gdosoftware.mercadolibre.domain.MLCurrency;
+import com.gdosoftware.mercadolibre.domain.MLState;
 import com.mercadolibre.sdk.Meli;
 import com.mercadolibre.sdk.MeliException;
 import java.util.Arrays;
@@ -45,6 +46,11 @@ public class SiteTemplate extends AbstractMercadoLibreOperations implements Site
     @Override
     public MLCurrency getCurrency(String currencyId) throws MeliException{
         return getForObject("/currencies/"+currencyId, MLCurrency.class);
+    }
+
+    @Override
+    public MLState getState(String stateId) throws MeliException {
+        return getForObject("/classified_locations/states/"+stateId, MLState.class);
     }
     
 }

@@ -35,7 +35,6 @@ public abstract class AbstractMercadoLibreOperations {
 
     public AbstractMercadoLibreOperations(Meli meli) {
         this.meli = meli;
-        System.out.println("Access Token : "+meli.getAccessToken());
     }
 
     protected FluentStringsMap createParamsWithToken(){
@@ -72,7 +71,6 @@ public abstract class AbstractMercadoLibreOperations {
         Gson gson = new Gson();
         Response response = meli.get(path,params);
         try {
-            System.out.println("---"+response.getResponseBody());
             return gson.fromJson(response.getResponseBody(), clazz);
         } catch (IOException ex) {
             Logger.getLogger(AbstractMercadoLibreOperations.class.getName()).log(Level.SEVERE, null, ex);

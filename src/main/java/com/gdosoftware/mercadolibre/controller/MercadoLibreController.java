@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.gdosoftware.mercadolibre.connect.ConnectionPoolRepository;
 import com.gdosoftware.mercadolibre.domain.MLNotify;
-import com.gdosoftware.mercadolibre.domain.MLUser;
 import com.gdosoftware.mercadolibre.events.CreatedOrdersEvent;
 import com.gdosoftware.mercadolibre.events.ItemsEvent;
 import com.gdosoftware.mercadolibre.events.MessagesEvent;
@@ -117,7 +116,6 @@ public class MercadoLibreController {
                 appEventPublisher.publishEvent(new MessagesEvent(notify,connRepo));
                 break;
         }
-         System.out.println("Estoy por devolver el status 200 de notificaciones");
          return new ResponseEntity<>(HttpStatus.OK);   
     }
     

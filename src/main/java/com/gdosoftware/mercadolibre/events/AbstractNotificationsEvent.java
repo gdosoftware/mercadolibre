@@ -60,7 +60,9 @@ public abstract class AbstractNotificationsEvent  extends ApplicationEvent{
         return getNotification().getResourceId();
     }
         
-    
+    public MercadoLibre getApi(){
+        return mercadoLibre;
+    }
     
     
     

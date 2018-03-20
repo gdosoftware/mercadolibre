@@ -8,6 +8,7 @@ package com.gdosoftware.mercadolibre.api;
 import com.gdosoftware.mercadolibre.domain.MLCategory;
 import com.gdosoftware.mercadolibre.domain.MLCountry;
 import com.gdosoftware.mercadolibre.domain.MLCurrency;
+import com.gdosoftware.mercadolibre.domain.MLState;
 import com.mercadolibre.sdk.MeliException;
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface SiteOperations {
   public MLCategory getCategory(String id) throws MeliException;
   public List<MLCountry> getAvailableCountries() throws MeliException;
   public MLCurrency getCurrency(String currencyId) throws MeliException;
-  
+  public MLState getState(String stateId)throws MeliException;
 }

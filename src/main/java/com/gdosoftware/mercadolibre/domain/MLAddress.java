@@ -10,7 +10,7 @@ package com.gdosoftware.mercadolibre.domain;
  * @author Daniel Gago
  */
 public class MLAddress {
-       private String state;
+        private String state;
         private String city;
         private String address;
         private String zip_code;
