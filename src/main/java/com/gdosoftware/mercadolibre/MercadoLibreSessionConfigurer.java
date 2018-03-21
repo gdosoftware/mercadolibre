@@ -20,44 +20,14 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
  *
  * @author Daniel Gago
  */
-public abstract class MercadoLibreConfigurer {
+public abstract class MercadoLibreSessionConfigurer extends AbstractMercadoLibreConfigurer{
     
-    
-    public abstract Long getApplicationId(Environment env);
-    public abstract String getApplicationSecret(Environment env);
-    public abstract ConnectionPoolRepository getConnectionPoolRepository();
-    public abstract String getRootUrl(Environment env);
-    public abstract String getSuccessUrl();
     
     @Bean
     @Scope(value="session", proxyMode=ScopedProxyMode.INTERFACES)
     public MercadoLibre populateApi(Environment env){
         return new MercadoLibreTemplate(getApplicationId(env),getApplicationSecret(env));
     }
-    
-    @Bean
-    public ConnectionPoolRepository populateConnectionRepository(){
-        return getConnectionPoolRepository();
-    }
-    
-    @Bean(name = "rootUrl")
-    public String populateCallbackUrl(Environment env){
-        return getRootUrl(env);
-    }
-    
-    @Bean(name = "successUrl")
-    public String populateSuccessPage(){
-        return getSuccessUrl();
-    }
-    
-    @Bean(name = "applicationEventMulticaster")
-    public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
-        SimpleApplicationEventMulticaster eventMulticaster 
-          = new SimpleApplicationEventMulticaster();
-         
-        eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
-        return eventMulticaster;
-    }
-    
+   
    
 }
