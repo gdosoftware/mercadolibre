@@ -12,7 +12,7 @@ import com.gdosoftware.mercadolibre.connect.ConnectionPoolRepository;
  *
  * @author Daniel Gago
  */
-public class CreatedOrdersEvent extends AbstractNotificationsEvent{
+public class CreatedOrdersEvent extends AbstractMLNotificationsEvent{
     
     public CreatedOrdersEvent(Object source, ConnectionPoolRepository connRepo) {
         super(source, connRepo);

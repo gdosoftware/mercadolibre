@@ -15,13 +15,13 @@ import org.springframework.context.ApplicationEvent;
  *
  * @author Daniel Gago
  */
-public abstract class AbstractNotificationsEvent  extends ApplicationEvent{
+public abstract class AbstractMLNotificationsEvent  extends ApplicationEvent{
    
     
     protected MercadoLibre mercadoLibre;
     
                     
-    public AbstractNotificationsEvent(Object source, ConnectionPoolRepository connRepo) {
+    public AbstractMLNotificationsEvent(Object source, ConnectionPoolRepository connRepo) {
         super(source);
         Optional.ofNullable(connRepo).ifPresent((cpr) -> {
             this.mercadoLibre = cpr.getApi(getNotification().getUser_id());

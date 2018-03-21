@@ -15,7 +15,7 @@ import java.util.Optional;
  *
  * @author Daniel Gago
  */
-public class QuestionsEvent extends AbstractNotificationsEvent{
+public class QuestionsEvent extends AbstractMLNotificationsEvent{
     
     public QuestionsEvent(Object source, ConnectionPoolRepository connRepo) {
         super(source, connRepo);
