@@ -90,7 +90,13 @@ public class MercadoLibreController {
     }
     
      @RequestMapping(value="/notifications", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity  mlNotify(@RequestBody MLNotify notify){
+    public @ResponseBody ResponseEntity  mlNotify(@RequestBody MLNotify notify, HttpServletRequest request){
+        
+         System.out.println("Origin: "+request.getHeader("Origin"));
+          System.out.println("Referer "+request.getHeader("Referer"));
+          System.out.println("RemoteUser "+request.getRemoteUser());
+          System.out.println("Remote host"+request.getRemoteHost());
+          System.out.println("Remote address"+request.getRemoteAddr());
        
         switch(notify.getTopic()){//estos eventos son asincronicos
             case "orders":
