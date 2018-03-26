@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Daniel Gago
  */
 @Controller
+@RequestMapping(value = "ml")
 public class MercadoLibreController {
    
     @Autowired
@@ -63,14 +64,14 @@ public class MercadoLibreController {
     private ConnectionPoolRepository connRepo;
 
     
-    @RequestMapping(value ="/signin" ,method = RequestMethod.GET)
+    @RequestMapping(value ="signin" ,method = RequestMethod.GET)
     public String signin(@RequestParam(value = "site") Meli.AuthUrls site){
 
         String authorizeUrl = meli.getConnectionOperations().getAuthUrl(rootUrl+"/authcallback", site);
         return "redirect:"+authorizeUrl;
     }
     
-    @RequestMapping(value ="/authcallback" ,method = RequestMethod.GET)
+    @RequestMapping(value ="authcallback" ,method = RequestMethod.GET)
     public String authorizedCallback(@RequestParam(value = "code", required = false) String code,
                                      HttpServletRequest request) throws AuthorizationFailure, ServletException, MeliException{
        
@@ -89,7 +90,7 @@ public class MercadoLibreController {
        
     }
     
-     @RequestMapping(value="/notifications", method = RequestMethod.POST)
+     @RequestMapping(value="notifications", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity  mlNotify(@RequestBody MLNotify notify, HttpServletRequest request){
         
          System.out.println("Origin: "+request.getHeader("Origin"));
