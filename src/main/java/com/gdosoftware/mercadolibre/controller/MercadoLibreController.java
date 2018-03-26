@@ -43,7 +43,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Daniel Gago
  */
 @Controller
-@RequestMapping(value = "ml")
 public class MercadoLibreController {
    
     @Autowired
@@ -90,7 +89,7 @@ public class MercadoLibreController {
        
     }
     
-     @RequestMapping(value="notifications", method = RequestMethod.POST)
+     @RequestMapping(value="mlnotifications", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity  mlNotify(@RequestBody MLNotify notify, HttpServletRequest request){
         
          System.out.println("Origin: "+request.getHeader("Origin"));
