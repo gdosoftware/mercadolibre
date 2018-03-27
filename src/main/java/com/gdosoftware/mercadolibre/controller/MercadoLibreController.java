@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Daniel Gago
  */
 @Controller
+@RequestMapping(value ="meliapi")
 public class MercadoLibreController {
    
     @Autowired
@@ -66,7 +67,7 @@ public class MercadoLibreController {
     @RequestMapping(value ="signin" ,method = RequestMethod.GET)
     public String signin(@RequestParam(value = "site") Meli.AuthUrls site){
 
-        String authorizeUrl = meli.getConnectionOperations().getAuthUrl(rootUrl+"/authcallback", site);
+        String authorizeUrl = meli.getConnectionOperations().getAuthUrl(rootUrl+"/meliapi/authcallback", site);
         return "redirect:"+authorizeUrl;
     }
     
@@ -74,7 +75,7 @@ public class MercadoLibreController {
     public String authorizedCallback(@RequestParam(value = "code", required = false) String code,
                                      HttpServletRequest request) throws AuthorizationFailure, ServletException, MeliException{
        
-        meli.getConnectionOperations().authorize(code, rootUrl+"/authcallback");
+        meli.getConnectionOperations().authorize(code, rootUrl+"/meliapi/authcallback");
         CredentialOperations co = meli.getCredentialOperations();
 
         if(connRepo != null)
@@ -89,7 +90,7 @@ public class MercadoLibreController {
        
     }
     
-     @RequestMapping(value="mlnotifications", method = RequestMethod.POST)
+     @RequestMapping(value="notifications", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity  mlNotify(@RequestBody MLNotify notify, HttpServletRequest request){
         
          System.out.println("Origin: "+request.getHeader("Origin"));
