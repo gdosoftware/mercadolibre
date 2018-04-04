@@ -28,6 +28,7 @@ import com.gdosoftware.mercadolibre.events.QuestionsEvent;
 import com.mercadolibre.sdk.MeliException;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -45,16 +46,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value ="meliapi")
 public class MercadoLibreController {
+    
+    @Value("${com.gdosoftware.mercadolibre.rooturl}")
+    private String rootUrl;
+    
+    @Value("${com.gdosoftware.mercadolibre.successurl}")
+    private String successUrl;
+    
    
     @Autowired
     private MercadoLibre meli;
-   
-    @Autowired
-    private String rootUrl;
-    
-    @Autowired
-    private String successUrl;
-        
+           
     @Autowired
     private ApplicationEventPublisher appEventPublisher;
     

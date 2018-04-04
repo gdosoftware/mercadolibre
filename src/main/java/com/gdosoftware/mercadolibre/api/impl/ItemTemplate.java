@@ -8,12 +8,10 @@ package com.gdosoftware.mercadolibre.api.impl;
 import com.gdosoftware.mercadolibre.api.ItemOperations;
 import com.gdosoftware.mercadolibre.domain.MLItem;
 import com.gdosoftware.mercadolibre.domain.MLItems;
-import com.gdosoftware.mercadolibre.domain.MLQuestions;
 import com.mercadolibre.sdk.Meli;
 import com.mercadolibre.sdk.MeliException;
 import com.ning.http.client.FluentStringsMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 

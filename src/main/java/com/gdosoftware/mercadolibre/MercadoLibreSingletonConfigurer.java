@@ -18,7 +18,7 @@ public abstract class MercadoLibreSingletonConfigurer extends AbstractMercadoLib
     
     @Bean
     public MercadoLibre populateApi(Environment env){
-        return new MercadoLibreTemplate(getApplicationId(env),getApplicationSecret(env));
+        return new MercadoLibreTemplate();
     }
     
 }

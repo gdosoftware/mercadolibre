@@ -17,26 +17,17 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
  * @author Dani
  */
 public abstract class AbstractMercadoLibreConfigurer {
-    public abstract Long getApplicationId(Environment env);
-    public abstract String getApplicationSecret(Environment env);
+    
+    
+    
     public abstract ConnectionPoolRepository getConnectionPoolRepository();
-    public abstract String getRootUrl(Environment env);
-    public abstract String getSuccessUrl();
+   
     
     @Bean
     public ConnectionPoolRepository populateConnectionRepository(){
         return getConnectionPoolRepository();
     }
-    
-    @Bean(name = "rootUrl")
-    public String populateCallbackUrl(Environment env){
-        return getRootUrl(env);
-    }
-    
-    @Bean(name = "successUrl")
-    public String populateSuccessPage(){
-        return getSuccessUrl();
-    }
+        
     
     @Bean(name = "applicationEventMulticaster")
     public ApplicationEventMulticaster simpleApplicationEventMulticaster() {

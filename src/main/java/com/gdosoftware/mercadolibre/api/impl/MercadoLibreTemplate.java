@@ -14,30 +14,40 @@ import com.gdosoftware.mercadolibre.api.QuestionOperations;
 import com.gdosoftware.mercadolibre.api.ShippingOperations;
 import com.gdosoftware.mercadolibre.api.SiteOperations;
 import com.gdosoftware.mercadolibre.api.UserOperations;
+import java.io.Serializable;
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  *
  * @author Daniel Gago
  */
-public class MercadoLibreTemplate extends Meli implements MercadoLibre{
+public class MercadoLibreTemplate  implements MercadoLibre, Serializable{
     
-
-    public MercadoLibreTemplate(Long clientId, String clientSecret) {
-        super(clientId, clientSecret);
+   
+    @Value("${com.gdosoftware.mercadolibre.applicationid}")
+    private Long applicationid;
+    @Value("${com.gdosoftware.mercadolibre.secretkey}")
+    private String secretkey;
+  
+    private Meli meli;
+    
+    public MercadoLibreTemplate() {
+        
     }
     
     public MercadoLibreTemplate(Long userId, String accesToken, String refreahToken, Long expiresIn){
-        super(userId, accesToken, refreahToken, expiresIn);
+         meli = new Meli(userId, accesToken, refreahToken, expiresIn);
     }
 
     @Override
     public UserOperations getUserOperations() {
-        return new UserTemplate(this);
+        return new UserTemplate(meli);
     }
 
     @Override
     public ItemOperations getItemOperations() {
-        return new ItemTemplate(this);
+        return new ItemTemplate(meli);
     }
 
     @Override
@@ -47,26 +57,29 @@ public class MercadoLibreTemplate extends Meli implements MercadoLibre{
 
     @Override
     public QuestionOperations getQuestionOperations() {
-        return new QuestionTemplate(this);
+        return new QuestionTemplate(meli);
     }
  
 
     @Override
     public ConnectionOperations getConnectionOperations() {
-        return new ConnectionTemplate(this);
+        return new ConnectionTemplate(meli);
     }
 
     @Override
     public CredentialOperations getCredentialOperations() {
-        return new CredentialTemplate(this);
+        return new CredentialTemplate(meli);
     }
 
     @Override
     public SiteOperations getSiteOperations() {
-        return new SiteTemplate(this);
+        return new SiteTemplate(meli);
     }
 
     
-    
+    @PostConstruct
+    public void init(){
+        meli = new Meli(applicationid,secretkey); 
+    }
     
 }

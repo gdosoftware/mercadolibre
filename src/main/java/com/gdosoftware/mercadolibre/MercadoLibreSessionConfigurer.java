@@ -11,10 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
-import com.gdosoftware.mercadolibre.connect.ConnectionPoolRepository;
-import org.springframework.context.event.ApplicationEventMulticaster;
-import org.springframework.context.event.SimpleApplicationEventMulticaster;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 /**
  *
@@ -26,7 +22,7 @@ public abstract class MercadoLibreSessionConfigurer extends AbstractMercadoLibre
     @Bean
     @Scope(value="session", proxyMode=ScopedProxyMode.INTERFACES)
     public MercadoLibre populateApi(Environment env){
-        return new MercadoLibreTemplate(getApplicationId(env),getApplicationSecret(env));
+        return new MercadoLibreTemplate();
     }
    
    

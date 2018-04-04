@@ -20,9 +20,10 @@ import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import com.ning.http.client.FluentStringsMap;
 import com.ning.http.client.Response;
+import java.io.Serializable;
 /**
  * 
- * @author Daniel Gago
+ * @author
  * cambios desde version original
  * cambio userId de String a Long
  * agrego constructor  
@@ -31,9 +32,11 @@ import com.ning.http.client.Response;
  * agrego system.currentMillis 
  * this.expiresIn = jsonElementExpires != null ? Long.parseLong(object.get(
                                             "expires_in").getAsString())*1000+ System.currentTimeMillis(): null;
+  * hago meli serializable para soportar spring redis session
+  * agrego getHttpClient() porque AsyncHttpClient no es serializable y elimino la propiedad
  */
 
-public class Meli {
+public class Meli implements Serializable{
     
 	public static String apiUrl = "https://api.mercadolibre.com";
  
@@ -73,7 +76,7 @@ public class Meli {
         private String refreshToken;
         private Long clientId;
         private String clientSecret;
-        private AsyncHttpClient http;
+       // private  AsyncHttpClient http;
         /** news **/
         private Long   expiresIn;
         private String scope;
@@ -82,11 +85,17 @@ public class Meli {
 
     
     
-        {
+//        {
+//            AsyncHttpClientConfig cf = new AsyncHttpClientConfig.Builder()
+//                     .setUserAgent("MELI-JAVA-SDK-0.0.4").build();
+//            http = new AsyncHttpClient(cf);
+//        } 
+        
+        public AsyncHttpClient getHttpClient(){
             AsyncHttpClientConfig cf = new AsyncHttpClientConfig.Builder()
                      .setUserAgent("MELI-JAVA-SDK-0.0.4").build();
-            http = new AsyncHttpClient(cf);
-        } 
+            return new AsyncHttpClient(cf);
+        }
 
         public Meli(Long clientId, String clientSecret) {
                 this.clientId = clientId;
@@ -142,7 +151,7 @@ public class Meli {
         }
 
         private BoundRequestBuilder prepareGet(String path, FluentStringsMap params) {
-                    return http.prepareGet(apiUrl + path)
+                    return getHttpClient().prepareGet(apiUrl + path)
                             .addHeader("Accept", "application/json")
                             .setQueryParameters(params);
         }
@@ -150,14 +159,14 @@ public class Meli {
 
 	private BoundRequestBuilder prepareDelete(String path,
 			FluentStringsMap params) {
-		return http.prepareDelete(apiUrl + path)
+		return getHttpClient().prepareDelete(apiUrl + path)
 				.addHeader("Accept", "application/json")
 				.setQueryParameters(params);
 	}
 
 	private BoundRequestBuilder preparePost(String path,
 			FluentStringsMap params, String body) {
-		return http.preparePost(apiUrl + path)
+		return getHttpClient().preparePost(apiUrl + path)
 				.addHeader("Accept", "application/json")
 				.setQueryParameters(params)
 				.setHeader("Content-Type", "application/json").setBody(body)
@@ -166,7 +175,7 @@ public class Meli {
 
 	private BoundRequestBuilder preparePut(String path,
 			FluentStringsMap params, String body) {
-		return http.preparePut(apiUrl + path)
+		return getHttpClient().preparePut(apiUrl + path)
 				.addHeader("Accept", "application/json")
 				.setQueryParameters(params)
 				.setHeader("Content-Type", "application/json").setBody(body)
@@ -174,7 +183,7 @@ public class Meli {
 	}
 
 	private BoundRequestBuilder preparePost(String path, FluentStringsMap params) {
-		return http.preparePost(apiUrl + path)
+		return getHttpClient().preparePost(apiUrl + path)
 				.addHeader("Accept", "application/json")
 				.setQueryParameters(params);
 	}
