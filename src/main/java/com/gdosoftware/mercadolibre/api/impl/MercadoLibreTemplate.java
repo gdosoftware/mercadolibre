@@ -79,7 +79,8 @@ public class MercadoLibreTemplate  implements MercadoLibre, Serializable{
     
     @PostConstruct
     public void init(){
-        meli = new Meli(applicationid,secretkey); 
+        if(meli == null)
+            meli = new Meli(applicationid,secretkey); 
     }
     
 }

@@ -234,7 +234,7 @@ public class Meli implements Serializable{
                         return authUrl.getValue() + "/authorization?response_type=code&client_id="
                                 + clientId
                                 + "&redirect_uri="
-                                + URLEncoder.encode(callback, "UTF-8");
+                                + URLEncoder.encode(callback, "UTF-8")+"&state=1234" ;
                     } catch (UnsupportedEncodingException e) {
                         return authUrl+"/authorization?response_type=code&client_id="
                                 + clientId + "&redirect_uri=" + callback;

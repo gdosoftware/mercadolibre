@@ -75,6 +75,7 @@ public class MercadoLibreController {
     
     @RequestMapping(value ="authcallback" ,method = RequestMethod.GET)
     public String authorizedCallback(@RequestParam(value = "code", required = false) String code,
+                                     @RequestParam(value = "state", required = false) String state,
                                      HttpServletRequest request) throws AuthorizationFailure, ServletException, MeliException{
        
         meli.getConnectionOperations().authorize(code, rootUrl+"/meliapi/authcallback");
