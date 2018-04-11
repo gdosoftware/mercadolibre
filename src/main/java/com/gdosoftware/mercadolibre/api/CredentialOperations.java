@@ -18,4 +18,8 @@ public interface CredentialOperations {
     public String getTokenType();
     public Long getExpiresIn();
     public String getScope();
+    public void setAccessToken(String accessToken);
+    public void setRefreshToken(String refreshToken);
+    public void setExpiresIn(Long expiresIn);
+    public void setUserId(Long userId);
 }

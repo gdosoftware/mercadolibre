@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLPicture {
+public class MLPicture implements Serializable{
    private String id;
    private String url;
    private String secure_url;

@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLSellerContact {
+public class MLSellerContact implements Serializable{
     private String contact;
     private String other_info;
     private String area_code;

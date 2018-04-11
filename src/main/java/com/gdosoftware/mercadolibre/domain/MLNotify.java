@@ -6,11 +6,13 @@
 
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel
  */
-public class MLNotify {
+public class MLNotify implements Serializable{
    private String resource;
    private Long user_id;
    private String topic;

@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLAnswer {
+public class MLAnswer implements Serializable{
     private String text;
     private String status;
     private String date_created;

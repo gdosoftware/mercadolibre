@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLState {
+public class MLState implements Serializable{
    private String id;
    private String name;
 

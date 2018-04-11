@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLIdentification {
+public class MLIdentification implements Serializable{
     private String type;
     private String number;
 

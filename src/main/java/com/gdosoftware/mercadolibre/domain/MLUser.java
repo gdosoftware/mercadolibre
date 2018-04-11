@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLUser {
+public class MLUser implements Serializable{
     private Long id;
     private String nickname;
     private String first_name;

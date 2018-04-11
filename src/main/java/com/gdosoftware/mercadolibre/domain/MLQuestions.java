@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLQuestions {
+public class MLQuestions implements Serializable{
     private Integer total;
     private Integer limit;
     private MLQuestion[] questions;

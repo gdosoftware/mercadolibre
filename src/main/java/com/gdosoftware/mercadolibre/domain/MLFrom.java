@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLFrom {
+public class MLFrom implements Serializable{
     private Long id;
     private Integer answered_questions;
 

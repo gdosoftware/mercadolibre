@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLLocationItem {
+public class MLLocationItem implements Serializable{
     private String id;
     private String name;
 

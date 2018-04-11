@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLAttributes {
+public class MLAttributes implements Serializable{
     private String id;
     private String name;
     private String value_id;

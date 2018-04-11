@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLItems {
+public class MLItems implements Serializable{
     
     private MLPaging paging;
     private  String[] results;

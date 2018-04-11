@@ -34,6 +34,7 @@ import java.io.Serializable;
                                             "expires_in").getAsString())*1000+ System.currentTimeMillis(): null;
   * hago meli serializable para soportar spring redis session
   * agrego getHttpClient() porque AsyncHttpClient no es serializable y elimino la propiedad
+  * afrego setters para userId, accessToken, refreshToken, expiresIn
  */
 
 public class Meli implements Serializable{
@@ -145,6 +146,24 @@ public class Meli implements Serializable{
         public String getTokenType() {
             return this.tokenType;
         }
+
+        public void setAccessToken(String accessToken) {
+            this.accessToken = accessToken;
+        }
+
+        public void setRefreshToken(String refreshToken) {
+            this.refreshToken = refreshToken;
+        }
+
+        public void setExpiresIn(Long expiresIn) {
+            this.expiresIn = expiresIn;
+        }
+
+        public void setUserId(Long userId) {
+            this.userId = userId;
+        }
+        
+        
 
         public Response get(String path) throws MeliException {
             return get(path, new FluentStringsMap());

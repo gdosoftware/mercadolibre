@@ -26,9 +26,9 @@
 <!--        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-        </dependency>
+        </dependency>-->
               
-        <dependency>
+<!--        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>-->
@@ -40,14 +40,14 @@
             <version>4.2.6.RELEASE</version>
         </dependency>
         
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+<!--         https://mvnrepository.com/artifact/org.springframework/spring-webmvc 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>4.2.6.RELEASE</version>
         </dependency>
         
-        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+         https://mvnrepository.com/artifact/org.springframework.security/spring-security-core 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
@@ -58,7 +58,7 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>4.0.4.RELEASE</version>
-        </dependency>
+        </dependency>-->
 
        <dependency>
             <groupId>com.ning</groupId>
@@ -72,16 +72,16 @@
             <version>2.2.2</version>
         </dependency>
         
-        <dependency>
+<!--        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
-        </dependency>
+        </dependency>-->
+        
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
             <version>1.13.3.RELEASE</version>
-            <type>jar</type>
         </dependency>
     </dependencies>
     

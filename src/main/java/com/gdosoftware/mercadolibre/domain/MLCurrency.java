@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLCurrency {
+public class MLCurrency implements Serializable{
     private String id;
     private String symbol;
     private String description;

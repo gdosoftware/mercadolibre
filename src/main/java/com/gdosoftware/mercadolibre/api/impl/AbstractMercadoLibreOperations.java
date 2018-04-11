@@ -5,7 +5,6 @@
  */
 package com.gdosoftware.mercadolibre.api.impl;
 
-import com.gdosoftware.mercadolibre.connect.ConnectionPoolRepository;
 import com.google.gson.Gson;
 import com.mercadolibre.sdk.AuthorizationFailure;
 import com.mercadolibre.sdk.Meli;
@@ -17,7 +16,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -25,9 +23,7 @@ import org.springframework.context.ApplicationContext;
  */
 public abstract class AbstractMercadoLibreOperations {
     
-    @Autowired
-    private ApplicationContext appContext;
-    
+      
     protected Meli meli;
    // protected Long expiresIn;
     
@@ -41,9 +37,7 @@ public abstract class AbstractMercadoLibreOperations {
         if(meli.getExpiresIn() < System.currentTimeMillis()){
             try {
                 meli.refreshAccessToken();
-                 Optional.ofNullable(appContext.getBean(ConnectionPoolRepository.class)).ifPresent((cpr) -> {
-                        cpr.save(meli.getUserId(), meli.getAccessToken(), meli.getRefreshToken(), meli.getExpiresIn());
-                });
+                
             } catch (AuthorizationFailure ex) {
                 Logger.getLogger(AbstractMercadoLibreOperations.class.getName()).log(Level.SEVERE, null, ex);
             }

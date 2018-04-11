@@ -15,8 +15,6 @@ import com.gdosoftware.mercadolibre.api.ShippingOperations;
 import com.gdosoftware.mercadolibre.api.SiteOperations;
 import com.gdosoftware.mercadolibre.api.UserOperations;
 import java.io.Serializable;
-import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  *
@@ -25,16 +23,21 @@ import org.springframework.beans.factory.annotation.Value;
 public class MercadoLibreTemplate  implements MercadoLibre, Serializable{
     
    
-    @Value("${com.gdosoftware.mercadolibre.applicationid}")
-    private Long applicationid;
-    @Value("${com.gdosoftware.mercadolibre.secretkey}")
-    private String secretkey;
+//    @Value("${com.gdosoftware.mercadolibre.applicationid}")
+//    private Long applicationid;
+//    @Value("${com.gdosoftware.mercadolibre.secretkey}")
+//    private String secretkey;
   
     private Meli meli;
     
     public MercadoLibreTemplate() {
         
     }
+
+    public MercadoLibreTemplate(Long applicationid, String secretkey) {
+        meli = new Meli(applicationid,secretkey);
+    }
+       
     
     public MercadoLibreTemplate(Long userId, String accesToken, String refreahToken, Long expiresIn){
          meli = new Meli(userId, accesToken, refreahToken, expiresIn);
@@ -77,10 +80,10 @@ public class MercadoLibreTemplate  implements MercadoLibre, Serializable{
     }
 
     
-    @PostConstruct
-    public void init(){
-        if(meli == null)
-            meli = new Meli(applicationid,secretkey); 
-    }
+//    @PostConstruct
+//    public void init(){
+//        if(meli == null)
+//            meli = new Meli(applicationid,secretkey); 
+//    }
     
 }

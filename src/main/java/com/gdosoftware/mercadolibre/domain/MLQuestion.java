@@ -5,17 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.Serializable;
 
 /**
  *
  * @author Daniel Gago
  */
-public class MLQuestion {
+public class MLQuestion implements Serializable{
     
     private Long id;
     private Long seller_id;
@@ -27,8 +23,9 @@ public class MLQuestion {
     private Boolean deleted_from_listing;
     private MLAnswer answer;
     private MLFrom from;
-    //custom
-    private String suggested;
+    //Custom prop
+    private Boolean newQuestion=true;
+   
     
     public Long getId() {
         return id;
@@ -103,14 +100,7 @@ public class MLQuestion {
         this.answer = answer;
     }
 
-    public String getSuggested() {
-        return suggested;
-    }
-
-    public void setSuggested(String suggested) {
-        this.suggested = suggested;
-    }
-
+   
     public MLFrom getFrom() {
         return from;
     }
@@ -119,42 +109,22 @@ public class MLQuestion {
         this.from = from;
     }
 
-    
+    public Boolean getNewQuestion() {
+        return newQuestion;
+    }
+
+    public void setNewQuestion(Boolean newQuestion) {
+        this.newQuestion = newQuestion;
+    }
+
+    @Override
+    public String toString() {
+        return "MLQuestion{" + "id=" + id + ", seller_id=" + seller_id + ", text=" + text + ", status=" + status + ", item_id=" + item_id + ", date_created=" + date_created + ", hold=" + hold + ", deleted_from_listing=" + deleted_from_listing + ", answer=" + answer + ", from=" + from + ", newQuestion=" + newQuestion + '}';
+    }
 
    
-//
-//    public String elpasedTime() {
-//        String result="";
-//        try {
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-//            Date ini = sdf.parse(date_created);
-//            Date today = new Date();
-//            Long diff = today.getTime() - ini.getTime();
-//            int days = (int) (diff / 86400000) ;
-//            int hours = (int) (diff / 3600000);
-//            int minutes = (int) (diff / 60000 );
-//            if( days == 1) 
-//                   result = "Hace 1 dia";
-//            else
-//                if( days > 1)
-//                    result = "Hace "+days+" dias";
-//                else
-//                    if(hours == 1)
-//                        result = "Hace 1 Hora";
-//                    else
-//                        if (hours > 1)
-//                           result = "Hace "+hours+" Horas";
-//                         else
-//                            if(minutes == 1)
-//                                result = "Hace 1 Minuto";
-//                            else
-//                                result = "Hace "+minutes+" Minutos";
-//            
-//        } catch (ParseException ex) {
-//            Logger.getLogger(MLQuestion.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return result;
-//    }
+
+ 
     
 
 }

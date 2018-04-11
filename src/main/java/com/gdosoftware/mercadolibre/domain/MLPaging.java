@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLPaging {
+public class MLPaging implements Serializable{
     private Integer total;
     private Integer offset;
     private Integer limit;

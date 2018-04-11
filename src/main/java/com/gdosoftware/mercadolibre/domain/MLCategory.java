@@ -5,6 +5,7 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
  *
  * @author Daniel Gago
  */
-public class MLCategory {
+public class MLCategory implements Serializable{
     private String id;
     private String name;
     private MLCategory[] path_from_root;

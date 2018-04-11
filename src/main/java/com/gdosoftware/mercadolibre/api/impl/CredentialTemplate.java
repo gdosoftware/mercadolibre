@@ -50,6 +50,26 @@ public class CredentialTemplate extends AbstractMercadoLibreOperations implement
         return meli.getScope();
     }
 
+    @Override
+    public void setAccessToken(String accessToken) {
+        meli.setAccessToken(accessToken);
+    }
+
+    @Override
+    public void setRefreshToken(String refreshToken) {
+        meli.setRefreshToken(refreshToken);
+    }
+
+    @Override
+    public void setExpiresIn(Long expiresIn) {
+        meli.setExpiresIn(expiresIn);
+    }
+
+    @Override
+    public void setUserId(Long userId) {
+        meli.setUserId(userId);
+    }
+
   
    
     

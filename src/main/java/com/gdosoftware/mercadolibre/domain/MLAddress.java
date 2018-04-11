@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLAddress {
+public class MLAddress implements Serializable{
         private String state;
         private String city;
         private String address;

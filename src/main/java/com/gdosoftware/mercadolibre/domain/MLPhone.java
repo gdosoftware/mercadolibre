@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLPhone {
+public class MLPhone implements Serializable{
         private String area_code;
         private String number;
         private String extension;

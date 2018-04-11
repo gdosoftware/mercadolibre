@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLQuestionResponse {
+public class MLQuestionResponse implements Serializable{
    private Long id;
    private MLAnswer answer;
    private String date_created;

@@ -5,11 +5,13 @@
  */
 package com.gdosoftware.mercadolibre.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Daniel Gago
  */
-public class MLItem {
+public class MLItem implements Serializable{
   private String id;
   private String site_id;
   private String title;
