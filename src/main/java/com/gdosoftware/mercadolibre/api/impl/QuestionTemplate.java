@@ -38,8 +38,10 @@ public class QuestionTemplate extends AbstractMercadoLibreOperations implements 
                                                              .add("limit",String.valueOf(LIMIT))
                                                              .add("offset",String.valueOf(offset));
             MLQuestions mlquestions = getForObject("/questions/search", MLQuestions.class, params);
-            questions.addAll(Arrays.asList(mlquestions.getQuestions()));
-            total = mlquestions.getTotal();
+            if(mlquestions != null){
+                questions.addAll(Arrays.asList(mlquestions.getQuestions()));
+                total = mlquestions.getTotal();
+            }
             offset += 50;
         }
         
@@ -60,8 +62,10 @@ public class QuestionTemplate extends AbstractMercadoLibreOperations implements 
                                                              .add("limit",String.valueOf(LIMIT))
                                                              .add("offset",String.valueOf(offset));
             MLQuestions mlquestions = getForObject("/questions/search", MLQuestions.class, params);
-            questions.addAll(Arrays.asList(mlquestions.getQuestions()));
-            total = mlquestions.getTotal();
+            if( mlquestions != null){
+                questions.addAll(Arrays.asList(mlquestions.getQuestions()));
+                total = mlquestions.getTotal();
+            }
             offset += 50;
         }
         
@@ -82,8 +86,10 @@ public class QuestionTemplate extends AbstractMercadoLibreOperations implements 
                                                              .add("limit",String.valueOf(LIMIT))
                                                              .add("offset",String.valueOf(offset));
             MLQuestions mlquestions = getForObject("/questions/search", MLQuestions.class, params);
-            questions.addAll(Arrays.asList(mlquestions.getQuestions()));
-            total = mlquestions.getTotal();
+            if ( mlquestions != null){
+                questions.addAll(Arrays.asList(mlquestions.getQuestions()));
+                total = mlquestions.getTotal();
+            }
             offset += 50;
         }
         
