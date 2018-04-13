@@ -29,6 +29,12 @@ public class ConnectionTemplate extends AbstractMercadoLibreOperations implement
         meli.authorize(code, redirectUri);
     }
 
+    @Override
+    public void refreshToken(String refreshToken) throws AuthorizationFailure{
+        meli.setRefreshToken(refreshToken);
+        meli.refreshAccessToken();
+    }
+
    
     
 }

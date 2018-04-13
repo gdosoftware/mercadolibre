@@ -34,7 +34,7 @@ public abstract class AbstractMercadoLibreOperations {
     }
 
     protected FluentStringsMap createParamsWithToken(){
-        if(meli.getExpiresIn() < System.currentTimeMillis()){
+        if(meli.getExpiresIn() < System.currentTimeMillis()){//esto sirve para uso online
             try {
                 meli.refreshAccessToken();
                 

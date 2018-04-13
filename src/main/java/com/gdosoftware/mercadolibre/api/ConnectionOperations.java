@@ -15,4 +15,5 @@ import com.mercadolibre.sdk.Meli.AuthUrls;
 public interface ConnectionOperations {
     public String getAuthUrl(String callback, AuthUrls authUrl);
     public void authorize(String code, String redirectUri) throws AuthorizationFailure;
+    public void refreshToken(String refreshToken) throws AuthorizationFailure;
 }

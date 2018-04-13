@@ -26,9 +26,7 @@ import java.io.Serializable;
  * @author
  * cambios desde version original
  * cambio userId de String a Long
- * agrego constructor  
- * public Meli(Long userId, String accessToken, String refreshToken, Long expiresIn)
- * 
+ *  * 
  * agrego system.currentMillis 
  * this.expiresIn = jsonElementExpires != null ? Long.parseLong(object.get(
                                             "expires_in").getAsString())*1000+ System.currentTimeMillis(): null;
@@ -115,13 +113,7 @@ public class Meli implements Serializable{
                 this.clientSecret = clientSecret;
                 this.refreshToken = refreshToken;
         }
-        //custom constructor
-        public Meli(Long userId, String accessToken, String refreshToken, Long expiresIn){
-            this.userId = userId;
-            this.accessToken = accessToken;
-            this.refreshToken = refreshToken;
-            this.expiresIn = expiresIn;
-        }
+      
 
         public String getAccessToken() {
             return this.accessToken;

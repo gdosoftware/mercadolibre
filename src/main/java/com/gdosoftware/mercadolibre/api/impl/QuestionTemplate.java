@@ -38,7 +38,7 @@ public class QuestionTemplate extends AbstractMercadoLibreOperations implements 
                                                              .add("limit",String.valueOf(LIMIT))
                                                              .add("offset",String.valueOf(offset));
             MLQuestions mlquestions = getForObject("/questions/search", MLQuestions.class, params);
-            if(mlquestions != null){
+            if(mlquestions != null && mlquestions.getQuestions() != null){
                 questions.addAll(Arrays.asList(mlquestions.getQuestions()));
                 total = mlquestions.getTotal();
             }

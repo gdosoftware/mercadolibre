@@ -30,18 +30,18 @@ public class MercadoLibreTemplate  implements MercadoLibre, Serializable{
   
     private Meli meli;
     
-    public MercadoLibreTemplate() {
-        
-    }
+    
 
     public MercadoLibreTemplate(Long applicationid, String secretkey) {
         meli = new Meli(applicationid,secretkey);
     }
-       
     
-    public MercadoLibreTemplate(Long userId, String accesToken, String refreahToken, Long expiresIn){
-         meli = new Meli(userId, accesToken, refreahToken, expiresIn);
+    public MercadoLibreTemplate(Long applicationid, String secretkey, Long userId) {
+        this(applicationid, secretkey);
+        meli.setUserId(userId);
     }
+    
+    
 
     @Override
     public UserOperations getUserOperations() {

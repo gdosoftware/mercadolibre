@@ -17,8 +17,9 @@ public class MercadoLibreFactory {
     public static MercadoLibre create(Long applicationId, String secretKey){
         return new MercadoLibreTemplate(applicationId, secretKey);
     }
+     
     
-    public static MercadoLibre create(Long userId, String accessToken, String refreshToken, Long expiresIn){
-        return new MercadoLibreTemplate(userId, accessToken, refreshToken, expiresIn);
+    public static MercadoLibre create(Long applicationId, String secretKey, Long userId){
+        return new MercadoLibreTemplate(applicationId, secretKey, userId);
     }
 }
