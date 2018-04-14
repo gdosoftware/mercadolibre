@@ -23,8 +23,7 @@ public class MLQuestion implements Serializable{
     private Boolean deleted_from_listing;
     private MLAnswer answer;
     private MLFrom from;
-    //Custom prop
-    private Boolean newQuestion=true;
+    
    
     
     public Long getId() {
@@ -109,17 +108,13 @@ public class MLQuestion implements Serializable{
         this.from = from;
     }
 
-    public Boolean getNewQuestion() {
-        return newQuestion;
-    }
-
-    public void setNewQuestion(Boolean newQuestion) {
-        this.newQuestion = newQuestion;
+    public Long getBuyerId(){
+        return from.getId();
     }
 
     @Override
     public String toString() {
-        return "MLQuestion{" + "id=" + id + ", seller_id=" + seller_id + ", text=" + text + ", status=" + status + ", item_id=" + item_id + ", date_created=" + date_created + ", hold=" + hold + ", deleted_from_listing=" + deleted_from_listing + ", answer=" + answer + ", from=" + from + ", newQuestion=" + newQuestion + '}';
+        return "MLQuestion{" + "id=" + id + ", seller_id=" + seller_id + ", text=" + text + ", status=" + status + ", item_id=" + item_id + ", date_created=" + date_created + ", hold=" + hold + ", deleted_from_listing=" + deleted_from_listing + ", answer=" + answer + ", from=" + from + '}';
     }
 
    
