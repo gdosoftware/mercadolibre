@@ -31,8 +31,9 @@ import java.io.Serializable;
  * this.expiresIn = jsonElementExpires != null ? Long.parseLong(object.get(
                                             "expires_in").getAsString())*1000+ System.currentTimeMillis(): null;
   * hago meli serializable para soportar spring redis session
-  * agrego getHttpClient() porque AsyncHttpClient no es serializable y elimino la propiedad
   * afrego setters para userId, accessToken, refreshToken, expiresIn
+  * AsyncHttpClient se crea y cierra en cada get(post/delete/put) para evitar la cumulacion de tareas en el worker que no se cierran y lo 
+  * terminan por colapsar
  */
 
 public class Meli implements Serializable{
@@ -75,7 +76,7 @@ public class Meli implements Serializable{
         private String refreshToken;
         private Long clientId;
         private String clientSecret;
-       // private  AsyncHttpClient http;
+        //private final AsyncHttpClient http = new AsyncHttpClient(new AsyncHttpClientConfig.Builder().setUserAgent("MELI-JAVA-SDK-0.0.4").build());
         /** news **/
         private Long   expiresIn;
         private String scope;
@@ -90,7 +91,7 @@ public class Meli implements Serializable{
 //            http = new AsyncHttpClient(cf);
 //        } 
         
-        public AsyncHttpClient getHttpClient(){
+        private AsyncHttpClient http(){
             AsyncHttpClientConfig cf = new AsyncHttpClientConfig.Builder()
                      .setUserAgent("MELI-JAVA-SDK-0.0.4").build();
             return new AsyncHttpClient(cf);
@@ -161,40 +162,37 @@ public class Meli implements Serializable{
             return get(path, new FluentStringsMap());
         }
 
-        private BoundRequestBuilder prepareGet(String path, FluentStringsMap params) {
-                    return getHttpClient().prepareGet(apiUrl + path)
+        private BoundRequestBuilder prepareGet(String path, FluentStringsMap params, AsyncHttpClient http) {
+                    return http.prepareGet(apiUrl + path)
                             .addHeader("Accept", "application/json")
                             .setQueryParameters(params);
         }
 
 
-	private BoundRequestBuilder prepareDelete(String path,
-			FluentStringsMap params) {
-		return getHttpClient().prepareDelete(apiUrl + path)
+	private BoundRequestBuilder prepareDelete(String path, FluentStringsMap params, AsyncHttpClient http) {
+		return http.prepareDelete(apiUrl + path)
 				.addHeader("Accept", "application/json")
 				.setQueryParameters(params);
 	}
 
-	private BoundRequestBuilder preparePost(String path,
-			FluentStringsMap params, String body) {
-		return getHttpClient().preparePost(apiUrl + path)
+	private BoundRequestBuilder preparePost(String path, FluentStringsMap params, String body, AsyncHttpClient http) {
+		return http.preparePost(apiUrl + path)
 				.addHeader("Accept", "application/json")
 				.setQueryParameters(params)
 				.setHeader("Content-Type", "application/json").setBody(body)
 				.setBodyEncoding("UTF-8");
 	}
 
-	private BoundRequestBuilder preparePut(String path,
-			FluentStringsMap params, String body) {
-		return getHttpClient().preparePut(apiUrl + path)
+	private BoundRequestBuilder preparePut(String path, FluentStringsMap params, String body, AsyncHttpClient http) {
+		return http.preparePut(apiUrl + path)
 				.addHeader("Accept", "application/json")
 				.setQueryParameters(params)
 				.setHeader("Content-Type", "application/json").setBody(body)
 				.setBodyEncoding("UTF-8");
 	}
 
-	private BoundRequestBuilder preparePost(String path, FluentStringsMap params) {
-		return getHttpClient().preparePost(apiUrl + path)
+	private BoundRequestBuilder preparePost(String path, FluentStringsMap params, AsyncHttpClient http) {
+		return http.preparePost(apiUrl + path)
 				.addHeader("Accept", "application/json")
 				.setQueryParameters(params);
 	}
@@ -202,8 +200,28 @@ public class Meli implements Serializable{
 
 
 	public Response get(String path, FluentStringsMap params) throws MeliException {
+                
+                AsyncHttpClient http = http();
+            
+		BoundRequestBuilder r = prepareGet(path, params, http);
 
-		BoundRequestBuilder r = prepareGet(path, params);
+		Response response;
+		try {
+			response = r.execute().get();
+		} catch (Exception e) {
+			throw new MeliException(e);
+		}
+            
+                http.close();
+		
+		return response;
+	}
+        
+        public Response post(String path, FluentStringsMap params, String body) throws MeliException {
+
+                 AsyncHttpClient http = http();
+            
+		BoundRequestBuilder r = preparePost(path, params, body, http());
 
 		Response response;
 		try {
@@ -212,10 +230,54 @@ public class Meli implements Serializable{
 			throw new MeliException(e);
 		}
 
-
+                http().close();
 		
 		return response;
 	}
+
+	public Response put(String path, FluentStringsMap params, String body) throws MeliException {
+
+		 AsyncHttpClient http = http();
+            
+                BoundRequestBuilder r = preparePut(path, params, body, http);
+
+		Response response;
+		try {
+			response = r.execute().get();
+		} catch (Exception e) {
+			throw new MeliException(e);
+		}
+                
+                http.close();
+		
+		return response;
+	}
+
+	public Response delete(String path, FluentStringsMap params) throws MeliException {
+            
+                 AsyncHttpClient http = http();
+            
+		BoundRequestBuilder r = prepareDelete(path, params, http);
+
+		Response response;
+		try {
+			response = r.execute().get();
+		} catch (Exception e) {
+			throw new MeliException(e);
+		}
+                
+                http.close();
+		
+		return response;
+	}
+
+        public BoundRequestBuilder head(String path) {
+            return null;
+        }
+
+        public BoundRequestBuilder options(String path) {
+            return null;
+        }
 
         public void refreshAccessToken() throws AuthorizationFailure {
                     FluentStringsMap params = new FluentStringsMap();
@@ -223,14 +285,18 @@ public class Meli implements Serializable{
                     params.add("client_id", String.valueOf(this.clientId));
                     params.add("client_secret", this.clientSecret);
                     params.add("refresh_token", this.refreshToken);
+                    AsyncHttpClient http = http();
+                    
                     try {
-                        BoundRequestBuilder req = preparePost("/oauth/token", params);
+                        BoundRequestBuilder req = preparePost("/oauth/token", params, http);
                         parseToken(req);
                     } catch (AuthorizationFailure e1) {
                         System.out.println(e1.getMessage());
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
+                    
+                    http.close();
 
         }
 
@@ -260,10 +326,14 @@ public class Meli implements Serializable{
                     params.add("client_secret", clientSecret);
                     params.add("code", code);
                     params.add("redirect_uri", redirectUri);
+                    
+                     AsyncHttpClient http = http();
 
-                    BoundRequestBuilder r = preparePost("/oauth/token", params);
+                    BoundRequestBuilder r = preparePost("/oauth/token", params, http);
 
                     parseToken(r);
+                    
+                    http.close();
         }
 
         private void parseToken(BoundRequestBuilder r) throws AuthorizationFailure {
@@ -323,54 +393,6 @@ public class Meli implements Serializable{
             return this.refreshToken != null && !this.refreshToken.isEmpty();
         }
 
-	public Response post(String path, FluentStringsMap params, String body) throws MeliException {
-
-		BoundRequestBuilder r = preparePost(path, params, body);
-
-		Response response;
-		try {
-			response = r.execute().get();
-		} catch (Exception e) {
-			throw new MeliException(e);
-		}
-
-		
-		return response;
-	}
-
-	public Response put(String path, FluentStringsMap params, String body) throws MeliException {
-
-		BoundRequestBuilder r = preparePut(path, params, body);
-
-		Response response;
-		try {
-			response = r.execute().get();
-		} catch (Exception e) {
-			throw new MeliException(e);
-		}
-		
-		return response;
-	}
-
-	public Response delete(String path, FluentStringsMap params) throws MeliException {
-		BoundRequestBuilder r = prepareDelete(path, params);
-
-		Response response;
-		try {
-			response = r.execute().get();
-		} catch (Exception e) {
-			throw new MeliException(e);
-		}
-		
-		return response;
-	}
-
-        public BoundRequestBuilder head(String path) {
-            return null;
-        }
-
-        public BoundRequestBuilder options(String path) {
-            return null;
-        }
+	
 }
 
