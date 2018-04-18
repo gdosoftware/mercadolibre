@@ -5,6 +5,7 @@
  */
 package com.gdosoftware.mercadolibre;
 
+import com.gdosoftware.mercadolibre.api.ConnectionPoolRepository;
 import com.gdosoftware.mercadolibre.api.MercadoLibre;
 import com.gdosoftware.mercadolibre.api.impl.MercadoLibreTemplate;
 
@@ -19,7 +20,11 @@ public class MercadoLibreFactory {
     }
      
     
-    public static MercadoLibre create(Long applicationId, String secretKey, Long userId){
-        return new MercadoLibreTemplate(applicationId, secretKey, userId);
+    public static MercadoLibre create(Long applicationId, String secretKey, Long userId, ConnectionPoolRepository connRepo){
+         MercadoLibre mercadolibre = new MercadoLibreTemplate(applicationId, secretKey, userId);
+         mercadolibre.getCredentialOperations().setAccessToken(connRepo.getAccessToken(userId));
+         mercadolibre.getCredentialOperations().setRefreshToken(connRepo.getRefreshToken(userId));
+         mercadolibre.getCredentialOperations().setExpiresIn(connRepo.getExpiresIn(userId));
+         return mercadolibre;
     }
 }

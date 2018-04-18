@@ -86,7 +86,9 @@ public class MLController {
     public @ResponseBody ResponseEntity  mlNotify(@RequestBody MLNotify notify, HttpServletRequest request){
         
          System.out.println("NOtifications: "+notify.toString());
-         MercadoLibre mercadolibre = MercadoLibreFactory.create(applicationId, secretKey, notify.getUser_id());
+         Long userId = notify.getUser_id();
+         MercadoLibre mercadolibre = MercadoLibreFactory.create(applicationId, secretKey, userId, connRepo);
+         
          publisher.publishEvent(EventsFactory.create(notify, mercadolibre));
          
          return new ResponseEntity<>(HttpStatus.OK);   
