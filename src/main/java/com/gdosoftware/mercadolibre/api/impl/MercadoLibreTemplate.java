@@ -21,12 +21,11 @@ import java.io.Serializable;
  * @author Daniel Gago
  */
 public class MercadoLibreTemplate  implements MercadoLibre, Serializable{
-    
-   
+
+     
     public enum Operations {ITEMS,ORDERS,QUESTIONS,SHIPPING}
   
     private Meli meli;
-    
     
 
     public MercadoLibreTemplate(Long applicationid, String secretkey) {
@@ -38,7 +37,9 @@ public class MercadoLibreTemplate  implements MercadoLibre, Serializable{
         meli.setUserId(userId);
     }
     
-    
+    private MercadoLibreTemplate(Meli meli){
+        this.meli = meli;
+    }
 
     @Override
     public UserOperations getUserOperations() {
@@ -75,6 +76,13 @@ public class MercadoLibreTemplate  implements MercadoLibre, Serializable{
     public SiteOperations getSiteOperations() {
         return new SiteTemplate(meli);
     }
+
+    @Override
+   public MercadoLibre copy(){
+       return new MercadoLibreTemplate(this.meli);
+   }
+
+    
 
     
 

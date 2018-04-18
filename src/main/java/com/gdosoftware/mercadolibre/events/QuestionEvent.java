@@ -5,6 +5,7 @@
  */
 package com.gdosoftware.mercadolibre.events;
 
+import com.gdosoftware.mercadolibre.api.MercadoLibre;
 import com.gdosoftware.mercadolibre.domain.MLQuestion;
 import com.mercadolibre.sdk.MeliException;
 
@@ -15,8 +16,8 @@ import com.mercadolibre.sdk.MeliException;
 
 public class QuestionEvent extends AbstractNotificationEvent{
     
-    public QuestionEvent(Object source) {
-        super(source);
+    public QuestionEvent(Object source, MercadoLibre mercadolibre) {
+        super(source, mercadolibre);
     }
     
     public MLQuestion getQuestion() throws MeliException{

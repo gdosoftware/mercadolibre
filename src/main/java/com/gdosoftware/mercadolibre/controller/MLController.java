@@ -5,6 +5,7 @@
  */
 package com.gdosoftware.mercadolibre.controller;
 
+import com.gdosoftware.mercadolibre.MercadoLibreFactory;
 import com.gdosoftware.mercadolibre.api.ConnectionPoolRepository;
 import com.gdosoftware.mercadolibre.api.CredentialOperations;
 import com.gdosoftware.mercadolibre.api.MercadoLibre;
@@ -40,6 +41,11 @@ import org.springframework.context.ApplicationEventPublisher;
 @RequestMapping("ml")
 public class MLController {
     
+    
+    @Value("${com.gdosoftware.mercadolibre.applicationid}")
+    private Long applicationId;
+    @Value("${com.gdosoftware.mercadolibre.secretkey}")
+    private String secretKey;
     @Value("${com.gdosoftware.mercadolibre.authcallback}")
     private String authCallbackUrl;
     
@@ -80,7 +86,8 @@ public class MLController {
     public @ResponseBody ResponseEntity  mlNotify(@RequestBody MLNotify notify, HttpServletRequest request){
         
          System.out.println("NOtifications: "+notify.toString());
-         publisher.publishEvent(EventsFactory.create(notify));
+         MercadoLibre mercadolibre = MercadoLibreFactory.create(applicationId, secretKey, notify.getUser_id());
+         publisher.publishEvent(EventsFactory.create(notify, mercadolibre));
          
          return new ResponseEntity<>(HttpStatus.OK);   
     }

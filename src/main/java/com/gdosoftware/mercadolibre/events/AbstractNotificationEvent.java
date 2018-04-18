@@ -5,14 +5,8 @@
  */
 package com.gdosoftware.mercadolibre.events;
 
-import com.gdosoftware.mercadolibre.api.ConnectionPoolRepository;
 import com.gdosoftware.mercadolibre.api.MercadoLibre;
-import com.gdosoftware.mercadolibre.api.impl.MercadoLibreTemplate;
 import com.gdosoftware.mercadolibre.domain.MLNotify;
-import java.util.Optional;
-import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -21,21 +15,14 @@ import org.springframework.context.ApplicationEvent;
  */
 public abstract class AbstractNotificationEvent extends ApplicationEvent{
     
-    
-    @Value("${com.gdosoftware.mercadolibre.applicationid}")
-    private Long applicationId;
-    
-    @Value("${com.gdosoftware.mercadolibre.secretkey}")
-    private String secretKey;
-    
-    @Autowired
-    protected ConnectionPoolRepository connRepo;
+       
                     
     protected MercadoLibre mercadoLibre;
     
     
-    public AbstractNotificationEvent(Object source) {
+    public AbstractNotificationEvent(Object source, MercadoLibre mercadolibre) {
         super(source);
+        this.mercadoLibre = mercadolibre;
     }
     
     private MLNotify getNotification(){
@@ -73,15 +60,7 @@ public abstract class AbstractNotificationEvent extends ApplicationEvent{
     public MercadoLibre getApi(){
         return mercadoLibre;
     }
-    
-    @PostConstruct
-    public void populateMercadoLibre(){
-        Long userId = getUser_id();
-        this.mercadoLibre = new MercadoLibreTemplate(applicationId,secretKey,userId);
-        this.mercadoLibre.getCredentialOperations().setAccessToken(connRepo.getAccessToken(userId));
-        this.mercadoLibre.getCredentialOperations().setRefreshToken(connRepo.getRefreshToken(userId));
-        this.mercadoLibre.getCredentialOperations().setExpiresIn(connRepo.getExpiresIn(userId));
-    }
+     
     
     
 }

@@ -5,6 +5,7 @@
  */
 package com.gdosoftware.mercadolibre.events;
 
+import com.gdosoftware.mercadolibre.api.MercadoLibre;
 import com.gdosoftware.mercadolibre.api.impl.MercadoLibreTemplate.Operations;
 import com.gdosoftware.mercadolibre.domain.MLNotify;
 
@@ -13,7 +14,7 @@ import com.gdosoftware.mercadolibre.domain.MLNotify;
  * @author Daniel Gago
  */
 public class EventsFactory {
-    public static AbstractNotificationEvent create(MLNotify notify){
+    public static AbstractNotificationEvent create(MLNotify notify, MercadoLibre mercadolibre){
         if (notify.getTopic().equals(Operations.ITEMS.name())){
                 
         }
@@ -21,7 +22,7 @@ public class EventsFactory {
                 
         }
         if (notify.getTopic().equals(Operations.QUESTIONS.name())){
-                return new QuestionEvent(notify);
+                return new QuestionEvent(notify, mercadolibre);
         }
         if (notify.getTopic().equals(Operations.SHIPPING.name())){
                 
