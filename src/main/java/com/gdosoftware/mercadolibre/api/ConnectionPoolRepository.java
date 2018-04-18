@@ -13,5 +13,6 @@ public interface ConnectionPoolRepository {
     public String getAccessToken(Long userId);
     public String getRefreshToken(Long userId);
     public Long getExpiresIn(Long userId);
-    public void UpdateCredentials(String accessToken, String refreshToken, Long expiresIn);
+    public void UpdateCredentials(Long userId, String accessToken, String refreshToken, Long expiresIn);
+    public void delete(Long userId);
 }

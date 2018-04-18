@@ -23,10 +23,7 @@ import java.io.Serializable;
 public class MercadoLibreTemplate  implements MercadoLibre, Serializable{
     
    
-//    @Value("${com.gdosoftware.mercadolibre.applicationid}")
-//    private Long applicationid;
-//    @Value("${com.gdosoftware.mercadolibre.secretkey}")
-//    private String secretkey;
+    public enum Operations {ITEMS,ORDERS,QUESTIONS,SHIPPING}
   
     private Meli meli;
     
@@ -80,10 +77,5 @@ public class MercadoLibreTemplate  implements MercadoLibre, Serializable{
     }
 
     
-//    @PostConstruct
-//    public void init(){
-//        if(meli == null)
-//            meli = new Meli(applicationid,secretkey); 
-//    }
-    
+
 }

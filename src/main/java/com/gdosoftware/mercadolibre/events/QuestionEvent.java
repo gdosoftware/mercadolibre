@@ -5,11 +5,8 @@
  */
 package com.gdosoftware.mercadolibre.events;
 
-import com.gdosoftware.mercadolibre.api.ConnectionPoolRepository;
 import com.gdosoftware.mercadolibre.domain.MLQuestion;
 import com.mercadolibre.sdk.MeliException;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  *

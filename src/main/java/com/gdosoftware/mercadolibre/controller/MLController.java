@@ -9,6 +9,7 @@ import com.gdosoftware.mercadolibre.api.ConnectionPoolRepository;
 import com.gdosoftware.mercadolibre.api.CredentialOperations;
 import com.gdosoftware.mercadolibre.api.MercadoLibre;
 import com.gdosoftware.mercadolibre.domain.MLNotify;
+import com.gdosoftware.mercadolibre.events.EventsFactory;
 import com.gdosoftware.mercadolibre.events.QuestionEvent;
 import com.mercadolibre.sdk.AuthorizationFailure;
 import com.mercadolibre.sdk.Meli;
@@ -44,10 +45,7 @@ public class MLController {
     
     @Autowired
     private MercadoLibre meliService;
-    
-    @Autowired
-    private ApplicationContext appCtx;
-    
+       
     @Autowired
     private ApplicationEventPublisher publisher;
     
@@ -82,7 +80,7 @@ public class MLController {
     public @ResponseBody ResponseEntity  mlNotify(@RequestBody MLNotify notify, HttpServletRequest request){
         
          System.out.println("NOtifications: "+notify.toString());
-         publisher.publishEvent(new QuestionEvent(notify));
+         publisher.publishEvent(EventsFactory.create(notify));
          
          return new ResponseEntity<>(HttpStatus.OK);   
     }

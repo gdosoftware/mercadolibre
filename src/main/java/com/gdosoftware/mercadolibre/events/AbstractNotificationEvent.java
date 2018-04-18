@@ -36,7 +36,6 @@ public abstract class AbstractNotificationEvent extends ApplicationEvent{
     
     public AbstractNotificationEvent(Object source) {
         super(source);
-        this.connRepo = connRepo;
     }
     
     private MLNotify getNotification(){
