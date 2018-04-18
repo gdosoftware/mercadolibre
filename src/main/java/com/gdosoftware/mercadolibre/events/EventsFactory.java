@@ -15,16 +15,16 @@ import com.gdosoftware.mercadolibre.domain.MLNotify;
  */
 public class EventsFactory {
     public static AbstractNotificationEvent create(MLNotify notify, MercadoLibre mercadolibre){
-        if (notify.getTopic().equals(Operations.ITEMS.name())){
+        if (notify.getTopic().equals(Operations.ITEMS.name().toLowerCase())){
                 
         }
-        if (notify.getTopic().equals(Operations.ORDERS.name())){
+        if (notify.getTopic().equals(Operations.ORDERS.name().toLowerCase())){
                 
         }
-        if (notify.getTopic().equals(Operations.QUESTIONS.name())){
+        if (notify.getTopic().equals(Operations.QUESTIONS.name().toLowerCase())){
                 return new QuestionEvent(notify, mercadolibre);
         }
-        if (notify.getTopic().equals(Operations.SHIPPING.name())){
+        if (notify.getTopic().equals(Operations.SHIPPING.name().toLowerCase())){
                 
         }
         return null;
