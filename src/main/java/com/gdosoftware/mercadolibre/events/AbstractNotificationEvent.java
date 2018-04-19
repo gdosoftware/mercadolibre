@@ -16,13 +16,8 @@ import org.springframework.context.ApplicationEvent;
 public abstract class AbstractNotificationEvent extends ApplicationEvent{
     
        
-                    
-    protected MercadoLibre mercadoLibre;
-    
-    
-    public AbstractNotificationEvent(Object source, MercadoLibre mercadolibre) {
+    public AbstractNotificationEvent(Object source) {
         super(source);
-        this.mercadoLibre = mercadolibre;
     }
     
     private MLNotify getNotification(){
@@ -57,10 +52,5 @@ public abstract class AbstractNotificationEvent extends ApplicationEvent{
         return getNotification().getResourceId();
     }
         
-    public MercadoLibre getApi(){
-        return mercadoLibre;
-    }
-     
-    
-    
+
 }

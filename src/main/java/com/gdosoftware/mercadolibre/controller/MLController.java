@@ -40,12 +40,7 @@ import org.springframework.context.ApplicationEventPublisher;
 @Controller
 @RequestMapping("ml")
 public class MLController {
-    
-    
-    @Value("${com.gdosoftware.mercadolibre.applicationid}")
-    private Long applicationId;
-    @Value("${com.gdosoftware.mercadolibre.secretkey}")
-    private String secretKey;
+            
     @Value("${com.gdosoftware.mercadolibre.authcallback}")
     private String authCallbackUrl;
     
@@ -55,10 +50,7 @@ public class MLController {
     @Autowired
     private ApplicationEventPublisher publisher;
     
-    @Autowired
-    private ConnectionPoolRepository connRepo;
-    
-    
+        
     @RequestMapping(value ="signin" ,method = RequestMethod.GET)
     public String signin(@RequestParam(value = "site") Meli.AuthUrls site){
 
@@ -86,8 +78,7 @@ public class MLController {
     public @ResponseBody ResponseEntity  mlNotify(@RequestBody MLNotify notify, HttpServletRequest request){
         
          System.out.println("NOtifications: "+notify.toString());
-         MercadoLibre mercadolibre = MercadoLibreFactory.create(applicationId, secretKey, notify.getUser_id());
-         publisher.publishEvent(EventsFactory.create(notify, mercadolibre));
+         publisher.publishEvent(EventsFactory.create(notify));
          
          return new ResponseEntity<>(HttpStatus.OK);   
     }

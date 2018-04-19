@@ -16,16 +16,8 @@ import com.mercadolibre.sdk.MeliException;
 
 public class QuestionEvent extends AbstractNotificationEvent{
     
-    public QuestionEvent(Object source, MercadoLibre mercadolibre) {
-        super(source, mercadolibre);
+    public QuestionEvent(Object source) {
+        super(source);
     }
-    
-    public MLQuestion getQuestion() throws MeliException{
-               
-        if(mercadoLibre != null)
-            return mercadoLibre.getQuestionOperations().getQuestion(Long.parseLong(getResourceId()));
-        
-        return null;        
-    }
-    
+            
 }
